@@ -99,6 +99,7 @@
       currentUser = profile; // pseudo user for local flow
       refreshProfileUI();
       document.querySelector('.fixed.inset-0')?.remove();
+      showToast('Signed up successfully');
     }
 
     function signOutUser() {
@@ -124,6 +125,21 @@
       profileBtnImgs.forEach(img => {
         if (data?.photoURL) img.src = data.photoURL;
       });
+    }
+
+    function showToast(message) {
+      let host = document.getElementById('toast-host');
+      if (!host) {
+        host = document.createElement('div');
+        host.id = 'toast-host';
+        host.className = 'fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] space-y-2';
+        document.body.appendChild(host);
+      }
+      const toast = document.createElement('div');
+      toast.className = 'bg-black bg-opacity-80 text-white text-xs px-3 py-2 rounded-full shadow';
+      toast.textContent = message;
+      host.appendChild(toast);
+      setTimeout(() => { toast.remove(); }, 1800);
     }
   </script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
@@ -157,6 +173,7 @@
       currentUser = profile;
       refreshProfileUI();
       document.querySelector('.fixed.inset-0')?.remove();
+      showToast('Signed in with Google');
     }
 
     function initGoogleSignIn() {
@@ -168,7 +185,50 @@
     }
 
     // Stays data store
-    let staysData = [];
+    let staysData = [
+      // type: Resort/Villa/Hotel; roomSize in sq.ft; capacity persons; amenities comma-list
+      { name: 'Vythiri Resort', type: 'Resort', roomSize: 420, capacity: 3, rating: 4.6, reviews: 1243, stars: 5, location: 'Wayanad', landmark: 'Vythiri', distance: '2 km from town', price: 9500, tax: 900, amenities: 'Pool,Spa,Restaurant,Free WiFi,Parking' },
+      { name: 'Spice Tree', type: 'Resort', roomSize: 380, capacity: 3, rating: 4.7, reviews: 986, stars: 5, location: 'Munnar', landmark: 'Chithirapuram', distance: '9 km from Munnar', price: 8800, tax: 820, amenities: 'Spa,Restaurant,Free WiFi,Parking' },
+      { name: 'Parakkat Nature', type: 'Hotel', roomSize: 340, capacity: 3, rating: 4.5, reviews: 1543, stars: 4, location: 'Munnar', landmark: 'Kallar', distance: '7 km from town', price: 6200, tax: 600, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'The Fog Munnar', type: 'Resort', roomSize: 360, capacity: 3, rating: 4.6, reviews: 1120, stars: 4, location: 'Munnar', landmark: 'Pallivasal', distance: '8 km', price: 7700, tax: 740, amenities: 'Pool,Spa,Restaurant,Free WiFi' },
+      { name: 'Elephant Court', type: 'Hotel', roomSize: 330, capacity: 3, rating: 4.3, reviews: 987, stars: 4, location: 'Thekkady', landmark: 'Periyar', distance: '1 km from Periyar', price: 5600, tax: 540, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'Greenwoods Resort', type: 'Resort', roomSize: 370, capacity: 3, rating: 4.6, reviews: 1211, stars: 4, location: 'Thekkady', landmark: 'Kumily', distance: '2 km', price: 6900, tax: 660, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Kumarakom Lake Resort', type: 'Resort', roomSize: 480, capacity: 3, rating: 4.7, reviews: 1504, stars: 5, location: 'Kumarakom', landmark: 'Vembanad Lake', distance: 'Lakefront', price: 14500, tax: 1350, amenities: 'Pool,Spa,Restaurant,Free WiFi,Parking' },
+      { name: 'Coconut Lagoon', type: 'Resort', roomSize: 450, capacity: 3, rating: 4.6, reviews: 1188, stars: 5, location: 'Kumarakom', landmark: 'Lake', distance: 'Lakefront', price: 12900, tax: 1200, amenities: 'Pool,Spa,Restaurant,Free WiFi' },
+      { name: 'Ramada by Wyndham Kochi', type: 'Hotel', roomSize: 320, capacity: 3, rating: 4.4, reviews: 2103, stars: 4, location: 'Kochi', landmark: 'Kumbalam', distance: '10 km from Fort Kochi', price: 5800, tax: 560, amenities: 'Pool,Restaurant,Free WiFi,Parking' },
+      { name: 'Brunton Boatyard', type: 'Hotel', roomSize: 350, capacity: 3, rating: 4.6, reviews: 934, stars: 5, location: 'Kochi', landmark: 'Fort Kochi', distance: 'Seafront', price: 11800, tax: 1100, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'The Zuri Kumarakom', type: 'Resort', roomSize: 460, capacity: 3, rating: 4.5, reviews: 1402, stars: 5, location: 'Kumarakom', landmark: 'Vembanad', distance: 'Lakefront', price: 11200, tax: 1040, amenities: 'Pool,Spa,Restaurant,Free WiFi,Parking' },
+      { name: 'Lake Palace Alleppey', type: 'Villa', roomSize: 400, capacity: 4, rating: 4.4, reviews: 876, stars: 4, location: 'Alleppey', landmark: 'Backwaters', distance: 'Waterfront', price: 9800, tax: 900, amenities: 'Free WiFi,Parking,Restaurant' },
+      { name: 'Punnamada Resort', type: 'Resort', roomSize: 390, capacity: 3, rating: 4.5, reviews: 1007, stars: 4, location: 'Alleppey', landmark: 'Punnamada Lake', distance: 'Lakefront', price: 8600, tax: 820, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Taj Green Cove', type: 'Resort', roomSize: 430, capacity: 3, rating: 4.6, reviews: 1677, stars: 5, location: 'Kovalam', landmark: 'Lighthouse Beach', distance: 'Beachfront', price: 13800, tax: 1300, amenities: 'Pool,Spa,Restaurant,Free WiFi,Parking' },
+      { name: 'Uday Samudra', type: 'Hotel', roomSize: 340, capacity: 3, rating: 4.3, reviews: 1320, stars: 4, location: 'Kovalam', landmark: 'Hawa Beach', distance: 'Beach access', price: 6500, tax: 620, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Aranyakam Homestay', type: 'Villa', roomSize: 300, capacity: 3, rating: 4.7, reviews: 540, stars: 3, location: 'Wayanad', landmark: 'Meppadi', distance: 'Tea estate', price: 4800, tax: 450, amenities: 'Free WiFi,Parking' },
+      { name: 'Vythiri Village', type: 'Resort', roomSize: 410, capacity: 3, rating: 4.4, reviews: 1650, stars: 4, location: 'Wayanad', landmark: 'NH766', distance: '3 km', price: 7200, tax: 700, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Banasura Hill Resort', type: 'Resort', roomSize: 440, capacity: 3, rating: 4.5, reviews: 980, stars: 4, location: 'Wayanad', landmark: 'Banasura Sagar', distance: 'Hill view', price: 9400, tax: 900, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'Blue Ginger', type: 'Resort', roomSize: 360, capacity: 3, rating: 4.3, reviews: 720, stars: 4, location: 'Wayanad', landmark: 'Melapoonchola', distance: '4 km', price: 6100, tax: 580, amenities: 'Pool,Free WiFi' },
+      { name: 'Poetree Sarovar', type: 'Hotel', roomSize: 350, capacity: 3, rating: 4.5, reviews: 1100, stars: 4, location: 'Thekkady', landmark: 'Ottakathalamedu', distance: 'Valley view', price: 6900, tax: 660, amenities: 'Restaurant,Free WiFi,Parking' },
+      // Additional 20 stays across 5 hubs
+      { name: 'Tea County Munnar', type: 'Hotel', roomSize: 320, capacity: 3, rating: 4.4, reviews: 980, stars: 4, location: 'Munnar', landmark: 'Court Road', distance: 'Central', price: 5400, tax: 520, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'Amber Dale Munnar', type: 'Resort', roomSize: 380, capacity: 3, rating: 4.6, reviews: 760, stars: 4, location: 'Munnar', landmark: 'Pallivasal', distance: '6 km', price: 7900, tax: 760, amenities: 'Spa,Restaurant,Free WiFi' },
+      { name: 'Fragrant Nature Munnar', type: 'Hotel', roomSize: 340, capacity: 3, rating: 4.5, reviews: 650, stars: 4, location: 'Munnar', landmark: 'Bison Valley Rd', distance: '5 km', price: 6900, tax: 660, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'The Leaf Munnar', type: 'Resort', roomSize: 360, capacity: 3, rating: 4.4, reviews: 810, stars: 4, location: 'Munnar', landmark: 'Chithirapuram', distance: '7 km', price: 7200, tax: 700, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Moselberg Riverside Cottages', type: 'Villa', roomSize: 420, capacity: 4, rating: 4.5, reviews: 540, stars: 3, location: 'Munnar', landmark: 'Anachal', distance: 'Riverside', price: 5600, tax: 540, amenities: 'Free WiFi,Parking' },
+      { name: 'The Raviz Kadavu', type: 'Hotel', roomSize: 330, capacity: 3, rating: 4.3, reviews: 1320, stars: 4, location: 'Kozhikode', landmark: 'Kadavu', distance: 'Riverside', price: 6100, tax: 580, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Taj Malabar Resort', type: 'Resort', roomSize: 400, capacity: 3, rating: 4.7, reviews: 2100, stars: 5, location: 'Kochi', landmark: 'Willingdon Island', distance: 'Seafront', price: 14500, tax: 1350, amenities: 'Pool,Spa,Restaurant,Free WiFi,Parking' },
+      { name: 'Forte Kochi', type: 'Hotel', roomSize: 310, capacity: 2, rating: 4.6, reviews: 740, stars: 4, location: 'Kochi', landmark: 'Princess St', distance: 'Fort Kochi', price: 7800, tax: 740, amenities: 'Restaurant,Free WiFi' },
+      { name: 'Eighth Bastion', type: 'Hotel', roomSize: 300, capacity: 2, rating: 4.5, reviews: 620, stars: 4, location: 'Kochi', landmark: 'Fort Kochi', distance: 'Central', price: 7300, tax: 700, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'Xandari Pearl', type: 'Resort', roomSize: 430, capacity: 3, rating: 4.4, reviews: 860, stars: 4, location: 'Alleppey', landmark: 'Marari', distance: 'Beachfront', price: 9800, tax: 900, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Lemon Tree Vembanad', type: 'Hotel', roomSize: 320, capacity: 3, rating: 4.2, reviews: 780, stars: 4, location: 'Alleppey', landmark: 'Muhamma', distance: 'Lakefront', price: 5600, tax: 540, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'Lake Canopy', type: 'Resort', roomSize: 380, capacity: 3, rating: 4.4, reviews: 690, stars: 4, location: 'Alleppey', landmark: 'Punnamada', distance: 'Backwaters', price: 8200, tax: 780, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Turtle On The Beach', type: 'Hotel', roomSize: 330, capacity: 3, rating: 4.3, reviews: 1500, stars: 4, location: 'Kovalam', landmark: 'Hawa Beach', distance: 'Beach access', price: 6400, tax: 620, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'The Leela Kovalam', type: 'Resort', roomSize: 500, capacity: 3, rating: 4.7, reviews: 2200, stars: 5, location: 'Kovalam', landmark: 'Cliff', distance: 'Clifftop', price: 18500, tax: 1700, amenities: 'Pool,Spa,Restaurant,Free WiFi,Parking' },
+      { name: 'Bethsaida Hermitage', type: 'Resort', roomSize: 360, capacity: 3, rating: 4.5, reviews: 610, stars: 4, location: 'Kovalam', landmark: 'Chowara', distance: 'Beachfront', price: 8200, tax: 780, amenities: 'Pool,Spa,Restaurant,Free WiFi' },
+      { name: 'Wayanad Wild CGH Earth', type: 'Resort', roomSize: 410, capacity: 3, rating: 4.6, reviews: 770, stars: 4, location: 'Wayanad', landmark: 'Lakkidi', distance: 'Forest edge', price: 9900, tax: 940, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Adithya Nature Resort', type: 'Resort', roomSize: 380, capacity: 3, rating: 4.3, reviews: 540, stars: 4, location: 'Wayanad', landmark: 'Meppadi', distance: 'Hills', price: 6400, tax: 600, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'Mount Xanadu', type: 'Resort', roomSize: 420, capacity: 3, rating: 4.7, reviews: 690, stars: 4, location: 'Wayanad', landmark: 'Ambalavayal', distance: 'Valley view', price: 11200, tax: 1040, amenities: 'Pool,Restaurant,Free WiFi' },
+      { name: 'Broad Bean Munnar', type: 'Hotel', roomSize: 310, capacity: 2, rating: 4.2, reviews: 480, stars: 3, location: 'Munnar', landmark: 'Chithirapuram', distance: '7 km', price: 4200, tax: 400, amenities: 'Restaurant,Free WiFi,Parking' },
+      { name: 'Sterling Thekkady', type: 'Hotel', roomSize: 300, capacity: 2, rating: 4.1, reviews: 720, stars: 3, location: 'Thekkady', landmark: 'Kumily', distance: '2 km', price: 4100, tax: 390, amenities: 'Restaurant,Free WiFi' }
+    ];
 
     function loadStaysFromCSV(event) {
       const file = event.target.files[0];
@@ -213,10 +273,18 @@
       renderStays();
     }
 
+    let selectedHub = '';
+    function setLocationFilter(hub) {
+      selectedHub = hub || '';
+      filterStays();
+    }
+
     function renderStays() {
       const query = (document.getElementById('stays-search')?.value || '').toLowerCase();
       const stars = document.getElementById('stays-stars')?.value || '';
       const area = document.getElementById('stays-area')?.value || '';
+      const typeSel = document.getElementById('stays-type')?.value || '';
+      const capMin = parseInt(document.getElementById('stays-capacity')?.value || '0') || 0;
       const priceMin = parseInt(document.getElementById('stays-price-min')?.value || '0') || 0;
       const priceMax = parseInt(document.getElementById('stays-price-max')?.value || '0') || 0;
       const selectedAmenityEls = Array.from(document.querySelectorAll('.amenity:checked'));
@@ -234,13 +302,16 @@
           s.location.toLowerCase().includes(query) ||
           s.landmark.toLowerCase().includes(query);
         const matchesStars = !stars || s.stars === parseInt(stars);
+        const matchesType = !typeSel || (s.type||'').toLowerCase() === typeSel.toLowerCase();
+        const matchesCapacity = capMin === 0 || (s.capacity||0) >= capMin;
         const matchesAreaSelect = !area || s.landmark.includes(area) || s.location.includes(area);
+        const matchesHub = !selectedHub || s.location.toLowerCase().includes(selectedHub.toLowerCase()) || s.landmark.toLowerCase().includes(selectedHub.toLowerCase());
         const matchesChipAreas = chipAreas.length === 0 || chipAreas.some(a => s.location.includes(a) || s.landmark.includes(a));
         const matchesPriceMin = priceMin === 0 || s.price >= priceMin;
         const matchesPriceMax = priceMax === 0 || s.price <= priceMax;
         const amenities = (s.amenities || '').toString();
         const matchesAmenities = selectedAmenityEls.length === 0 || selectedAmenityEls.every(el => amenities.includes(el.value));
-        return matchesQuery && matchesStars && matchesAreaSelect && matchesChipAreas && matchesPriceMin && matchesPriceMax && matchesAmenities;
+        return matchesQuery && matchesStars && matchesType && matchesCapacity && matchesAreaSelect && matchesHub && matchesChipAreas && matchesPriceMin && matchesPriceMax && matchesAmenities;
       });
 
       const staysList = document.getElementById('stays-list');
@@ -263,6 +334,12 @@
               <span>${s.reviews.toLocaleString()} reviews</span>
             </div>
             <div class="mt-1 text-[11px] text-gray-500 truncate">${s.location} · ${s.landmark} · ${s.distance}</div>
+            <div class="mt-1 text-[11px] text-gray-600 flex flex-wrap gap-2">
+              <span class="px-2 py-0.5 bg-gray-100 rounded-full">${s.type || 'Hotel'}</span>
+              <span class="px-2 py-0.5 bg-gray-100 rounded-full">Room: ${s.roomSize || 0} sq.ft</span>
+              <span class="px-2 py-0.5 bg-gray-100 rounded-full">Sleeps: ${s.capacity || 2}</span>
+            </div>
+            <div class="mt-1 text-[11px] text-gray-500 truncate">Amenities: ${(s.amenities||'').toString().split(',').slice(0,4).join(', ')}</div>
             <div class="mt-2 flex justify-between items-center">
               <div class="text-sm font-bold text-gray-900">₹${s.price.toLocaleString()} <span class="text-[10px] font-normal text-gray-500">+ ₹${s.tax.toLocaleString()} tax</span></div>
               <button class="text-xs px-2 py-1 rounded-full border border-gray-200 hover:bg-gray-50" onclick="event.stopPropagation(); bookStay('${s.name}')">Book</button>
@@ -270,9 +347,13 @@
           </div>`;
 
         if (staysList) staysList.appendChild(card);
-        // Also keep legacy horizontal rows filled for desktop aesthetics
-        const target = lists[idx % lists.length] || lists[0];
-        if (target) target.appendChild(card.cloneNode(true));
+        // Distribute into specific sections by type
+        const type = (s.type || '').toLowerCase();
+        let bucket = null;
+        if (type === 'resort') bucket = document.getElementById('stays-resorts');
+        else if (type === 'villa' || type === 'homestay' || type === 'home stay' || type === 'home stays') bucket = document.getElementById('stays-homestays');
+        else if (type === 'hotel' || type === '') bucket = document.getElementById('stays-hotels');
+        if (bucket) bucket.appendChild(card.cloneNode(true));
       });
 
       const empty = document.getElementById('stays-empty');
@@ -488,6 +569,13 @@
     </div>
     <div class="px-6 mt-2">
      <div class="flex justify-between items-center mb-2">
+      <h3 class="font-bold text-sm tracking-widest text-gray-900">Hotels</h3>
+      <a class="text-xs text-green-700 font-semibold hover:underline" href="#" onclick="navigateToSection('stays')">View All</a>
+     </div>
+     <div id="home-hotels" class="flex space-x-3 overflow-x-auto pb-2"></div>
+    </div>
+    <div class="px-6 mt-2">
+     <div class="flex justify-between items-center mb-2">
       <h3 class="font-bold text-sm tracking-widest text-gray-900">
        Festivals/Events
       </h3>
@@ -507,6 +595,51 @@
        <div class="absolute top-2 left-2 bg-black bg-opacity-40 text-white text-xs font-semibold px-2 rounded">
         Kadhakali
        </div>
+      </div>
+     </div>
+    </div>
+    <div class="px-6 pb-6">
+     <h3 class="font-bold text-sm tracking-widest text-gray-900 mb-2">Top Places in Kerala</h3>
+     <div class="space-y-3 text-xs text-gray-700 leading-snug">
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Munnar</p>
+       <p>Hill station famed for rolling tea gardens, misty valleys, Eravikulam National Park and viewpoints like Top Station.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Alappuzha (Alleppey)</p>
+       <p>Backwater paradise known for serene houseboat cruises, narrow canals, paddy fields and the picturesque Vembanad Lake.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Kochi (Fort Kochi)</p>
+       <p>Historic port city with colonial streets, Chinese fishing nets, synagogues, spice markets and vibrant art cafés.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Wayanad</p>
+       <p>Forest-clad highlands offering wildlife sanctuaries, waterfalls, caves at Edakkal, and scenic treks amid coffee estates.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Kumarakom</p>
+       <p>Birdwatcher's haven on Vembanad Lake with tranquil backwaters, luxury resorts and the Kumarakom Bird Sanctuary.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Thekkady (Periyar)</p>
+       <p>Wildlife hotspot known for Periyar Tiger Reserve, boat safaris, spice plantations and bamboo rafting experiences.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Varkala</p>
+       <p>Cliff-fringed beaches with golden sands, cafes on the cliff edge, mineral springs and spectacular Arabian Sea sunsets.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Kovalam</p>
+       <p>Famous for lighthouse-topped headland, crescent beaches, calm waters for swimming and Ayurvedic wellness retreats.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Athirappilly Waterfalls</p>
+       <p>Kerala's "Niagara" cascading through lush rainforest; great for nature walks, photography and monsoon grandeur.</p>
+      </div>
+      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900">Bekal Fort</p>
+       <p>Massive seaside fort in Kasaragod with laterite ramparts, sea views and a quiet beach perfect for sunset strolls.</p>
       </div>
      </div>
     </div>
@@ -551,7 +684,7 @@
       </i>
      </button>
     </div>
-    <div class="p-6 flex flex-col flex-grow">
+    <div id="destinations-scroll" class="p-6 flex flex-col flex-grow overflow-y-auto" style="scroll-behavior: smooth; padding-bottom: 6rem;">
      <h2 class="text-lg font-bold mb-2">
       Wayanad
      </h2>
@@ -634,6 +767,10 @@
       Book a Trip
      </button>
     </div>
+    <button aria-label="Scroll up" class="absolute right-3 top-24 z-20 bg-white/90 hover:bg-white shadow p-2 rounded-full text-gray-700" onclick="scrollDestinations(-240)"><i class="fas fa-chevron-up"></i></button>
+    <button aria-label="Scroll down" class="absolute right-3 bottom-24 z-20 bg-white/90 hover:bg-white shadow p-2 rounded-full text-gray-700" onclick="scrollDestinations(240)"><i class="fas fa-chevron-down"></i></button>
+    <button aria-label="Previous place" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white shadow p-3 rounded-full text-gray-700" onclick="prevDestination()"><i class="fas fa-chevron-left"></i></button>
+    <button aria-label="Next place" class="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white shadow p-3 rounded-full text-gray-700" onclick="nextDestination()"><i class="fas fa-chevron-right"></i></button>
     <nav class="absolute bottom-0 left-0 w-full bg-white rounded-b-3xl flex justify-around items-center py-3 text-green-700 text-sm font-semibold tracking-wide">
      <button aria-label="Home" class="flex flex-col items-center gap-1 text-gray-400">
       <i class="fas fa-home text-lg">
@@ -694,6 +831,15 @@
        <option value="Attukal Waterfalls">Attukal Waterfalls</option>
       </select>
      </div>
+     <div class="mb-4 grid grid-cols-2 gap-2 text-xs">
+      <select id="stays-type" class="bg-white border border-gray-200 rounded-lg py-2 px-3" onchange="filterStays()">
+       <option value="">Type: Any</option>
+       <option>Resort</option>
+       <option>Villa</option>
+       <option>Hotel</option>
+      </select>
+      <input id="stays-capacity" type="number" min="0" class="bg-white border border-gray-200 rounded-lg py-2 px-3" placeholder="Min capacity" oninput="filterStays()"/>
+     </div>
      <div class="mb-4 flex items-center gap-3 text-xs">
       <div class="flex items-center gap-2">
        <label class="text-gray-600">₹ Min</label>
@@ -723,6 +869,17 @@
       <button class="chip" onclick="toggleAreaChip(this, 'Kovalam')">Kovalam</button>
       <button class="chip" onclick="toggleAreaChip(this, 'Kumarakom')">Kumarakom</button>
       <button class="chip" onclick="toggleAreaChip(this, 'Varkala')">Varkala</button>
+     </div>
+     <div class="mb-4">
+      <div class="text-xs text-gray-600 mb-1">Locations</div>
+      <div class="flex flex-wrap gap-2 text-xs">
+       <button class="px-3 py-1 border border-gray-200 rounded-full" onclick="setLocationFilter('Munnar')">Munnar</button>
+       <button class="px-3 py-1 border border-gray-200 rounded-full" onclick="setLocationFilter('Wayanad')">Wayanad</button>
+       <button class="px-3 py-1 border border-gray-200 rounded-full" onclick="setLocationFilter('Kochi')">Kochi</button>
+       <button class="px-3 py-1 border border-gray-200 rounded-full" onclick="setLocationFilter('Alleppey')">Alleppey</button>
+       <button class="px-3 py-1 border border-gray-200 rounded-full" onclick="setLocationFilter('Kovalam')">Kovalam</button>
+       <button class="px-3 py-1 border border-gray-200 rounded-full" onclick="setLocationFilter('')">Clear</button>
+      </div>
      </div>
      <div id="stays-dynamic" class="mb-6">
       <div id="stays-list" class="grid grid-cols-1 gap-3"></div>
@@ -1103,6 +1260,35 @@
     </nav>
    </section>
   </main>
+  <!-- Packages section (overlay style for consistency with grid layout) -->
+  <section class="relative phone-shell bg-white rounded-3xl shadow-lg flex flex-col overflow-hidden" data-section="packages">
+   <div class="p-4 flex justify-between items-center">
+    <button aria-label="Menu" class="text-gray-700 text-xl touch-target btn-active p-2 rounded-lg hover:bg-gray-100" onclick="toggleMenu(this)">
+     <i class="fas fa-bars"></i>
+    </button>
+    <h2 class="text-lg font-bold">Packages</h2>
+    <span></span>
+   </div>
+   <div id="packages-scroll" class="px-6 pb-6 flex-1 overflow-y-auto" style="scroll-behavior:smooth; padding-bottom: 5rem;"></div>
+   <nav class="absolute bottom-0 left-0 w-full bg-white rounded-b-3xl flex justify-around items-center py-3 text-green-700 text-sm font-semibold tracking-wide">
+    <button aria-label="Home" class="flex flex-col items-center gap-1 text-gray-400" onclick="navigateToSection('home')">
+     <i class="fas fa-home text-lg"></i>
+     Home
+    </button>
+    <button aria-label="Destinations" class="flex flex-col items-center gap-1 text-gray-400" onclick="navigateToSection('destinations')">
+     <i class="fas fa-map-marker-alt text-lg"></i>
+     Destinations
+    </button>
+    <button aria-label="Packages" class="flex flex-col items-center gap-1 text-green-700" onclick="navigateToSection('packages')">
+     <i class="fas fa-suitcase-rolling text-lg"></i>
+     Packages
+    </button>
+    <button aria-label="Stays" class="flex flex-col items-center gap-1 text-gray-400" onclick="navigateToSection('stays')">
+     <i class="fas fa-bed text-lg"></i>
+     Stays
+    </button>
+   </nav>
+  </section>
 
   <!-- JavaScript for interactive functionality -->
   <script>
@@ -1118,6 +1304,8 @@
       setupEventListeners();
       loadUserPreferences();
       initGoogleSignIn();
+      renderDestinationSlideshow();
+      renderHomeHotels();
     });
 
     function initializeApp() {
@@ -1258,6 +1446,13 @@
       }
     }
 
+    // Keyboard navigation for Destinations slideshow
+    document.addEventListener('keydown', function(e) {
+      if (currentSection !== 'destinations') return;
+      if (e.key === 'ArrowRight') { nextDestination(); }
+      if (e.key === 'ArrowLeft') { prevDestination(); }
+    });
+
     // Initialize visible sections
     window.addEventListener('resize', function() { navigateToSection(currentSection); });
     document.addEventListener('DOMContentLoaded', function() { navigateToSection(currentSection); });
@@ -1272,6 +1467,607 @@
         return;
       }
       map.textContent = `Route (${mode}): ${from} → ${to}`;
+    }
+
+    // Packages data and renderer
+    const packagesData = [
+      {
+        name: 'Western Ghats Explorer',
+        places: ['Munnar', 'Thekkady', 'Vagamon', 'Athirappilly', 'Kochi'],
+        nights: 6,
+        days: 7,
+        pricePerPerson: 24999,
+        groupDiscount: '5% off for 4+, 10% off for 8+',
+        perspective: 'Tea gardens, wildlife, waterfalls and heritage port city',
+        highlights: ['Eravikulam NP', 'Periyar boat safari', 'Athirappilly Falls', 'Fort Kochi walk'],
+        estimate: 'Travel 680 km total, avg 4.5h drive/day',
+        image: 'Munnar_hillstation_kerala.jpg',
+        tiers: [
+          { name: 'Standard', multiplier: 1 },
+          { name: 'Deluxe', multiplier: 1.25 },
+          { name: 'Luxury', multiplier: 1.6 }
+        ],
+        discountRules: [ { min: 4, percent: 5 }, { min: 8, percent: 10 } ],
+        inclusions: ['Daily breakfast', 'Private AC vehicle', 'Houseboat meals per plan', 'Sightseeing as per itinerary', 'Tolls, parking, driver'],
+        exclusions: ['Flight/Train tickets', 'Personal expenses', 'Monument/safari tickets', 'GST as applicable', 'Optional activities'],
+        itinerary: [
+          { day: 1, title: 'Arrive Kochi → Munnar', transport: 'Private AC sedan/SUV', distance: '130 km', time: '4 hr', meals: '—', stay: 'Munnar hotel', details: 'Airport pickup, Cheeyappara waterfalls, Tea Museum road evening.' },
+          { day: 2, title: 'Munnar sightseeing', transport: 'Private vehicle', distance: 'Local', time: '6-7 hr', meals: 'Breakfast', stay: 'Munnar hotel', details: 'Eravikulam NP, Top Station, Tea Museum, Echo Point, Mattupetty Dam.' },
+          { day: 3, title: 'Munnar → Thekkady', transport: 'Private vehicle', distance: '90 km', time: '3 hr', meals: 'Breakfast', stay: 'Thekkady resort', details: 'Spice plantation walk, Kalaripayattu/Kathakali (optional).' },
+          { day: 4, title: 'Periyar wildlife & boating', transport: 'Private + shared boat', distance: 'Local', time: '4-5 hr', meals: 'Breakfast', stay: 'Thekkady resort', details: 'Periyar Lake boat safari, bamboo rafting (optional).' },
+          { day: 5, title: 'Thekkady → Vagamon', transport: 'Private vehicle', distance: '45 km', time: '2 hr', meals: 'Breakfast', stay: 'Vagamon stay', details: 'Pine Forest, meadows, paragliding (seasonal, optional).' },
+          { day: 6, title: 'Vagamon → Athirappilly → Kochi', transport: 'Private vehicle', distance: '210 km', time: '6 hr', meals: 'Breakfast', stay: 'Kochi stay', details: 'Athirappilly & Vazhachal falls, Fort Kochi sunset.' },
+          { day: 7, title: 'Kochi heritage & departure', transport: 'Private airport drop', distance: '40 km', time: '1 hr', meals: 'Breakfast', stay: '—', details: 'Synagogue, Dutch Palace, Chinese nets (time permitting).'}
+        ]
+      },
+      {
+        name: 'Backwaters & Beaches Retreat',
+        places: ['Kumarakom', 'Alleppey', 'Kochi', 'Marari', 'Varkala', 'Kovalam'],
+        nights: 7,
+        days: 8,
+        pricePerPerson: 28999,
+        groupDiscount: '7% off for 5+, 12% off for 10+',
+        perspective: 'Houseboats, bird sanctuaries and cliff beaches',
+        highlights: ['Vembanad cruise', 'Bird Sanctuary', 'Fort Kochi', 'Varkala cliff sunset'],
+        estimate: 'Travel 520 km total, avg 3.5h drive/day',
+        image: 'alleppey-kerala-tourism-entry-fee-timings-holidays-reviews-header.jpg',
+        tiers: [
+          { name: 'Standard', multiplier: 1 },
+          { name: 'Deluxe', multiplier: 1.2 },
+          { name: 'Luxury', multiplier: 1.5 }
+        ],
+        discountRules: [ { min: 5, percent: 7 }, { min: 10, percent: 12 } ],
+        inclusions: ['Breakfast daily', 'Private transfers', '1N Deluxe Houseboat with meals', 'All taxes, driver charges'],
+        exclusions: ['Air/Rail fare', 'Personal expenses', 'Entry tickets', 'Optional activities', 'GST extra'],
+        itinerary: [
+          { day: 1, title: 'Arrive Kochi → Kumarakom', transport: 'Private AC sedan/SUV', distance: '55 km', time: '1.5 hr', meals: '—', stay: 'Kumarakom lakeside', details: 'Sunset by Vembanad Lake.' },
+          { day: 2, title: 'Kumarakom Bird Sanctuary', transport: 'Private vehicle + walk', distance: 'Local', time: '3-4 hr', meals: 'Breakfast', stay: 'Kumarakom', details: 'Early birding trail, Ayurveda (optional).'},
+          { day: 3, title: 'Kumarakom → Alleppey Houseboat', transport: 'Private + houseboat', distance: '35 km', time: '1 hr', meals: 'Lunch & Dinner on HB', stay: 'Deluxe Houseboat', details: 'Private cruise through canals; overnight onboard.'},
+          { day: 4, title: 'Alleppey → Marari', transport: 'Private vehicle', distance: '15 km', time: '30 min', meals: 'Breakfast', stay: 'Marari beach resort', details: 'Beach day; village bicycle tour (optional).'},
+          { day: 5, title: 'Marari → Varkala', transport: 'Private vehicle', distance: '135 km', time: '4 hr', meals: 'Breakfast', stay: 'Varkala cliff', details: 'Cliff walkway, cafés, sunset yoga (optional).'},
+          { day: 6, title: 'Varkala → Kovalam', transport: 'Private vehicle', distance: '55 km', time: '1.5 hr', meals: 'Breakfast', stay: 'Kovalam resort', details: 'Lighthouse beach; Ayurveda spa.'},
+          { day: 7, title: 'Kovalam & Trivandrum', transport: 'Private vehicle', distance: 'Local', time: '4 hr', meals: 'Breakfast', stay: 'Kovalam', details: 'Padmanabhaswamy Temple, Museum complex.'},
+          { day: 8, title: 'Departure', transport: 'Private drop (TRV)', distance: '15 km', time: '30 min', meals: 'Breakfast', stay: '—', details: 'Airport drop.'}
+        ]
+      },
+      {
+        name: 'Malabar Heritage Trail',
+        places: ['Calicut', 'Wayanad', 'Kannur', 'Bekal', 'Kasargod', 'Kochi'],
+        nights: 8,
+        days: 9,
+        pricePerPerson: 31999,
+        groupDiscount: '5% off for 4+, 10% off for 8+',
+        perspective: 'Cuisine, forts and rainforest escapes in North Kerala',
+        highlights: ['Kappad Beach', 'Edakkal Caves', 'Theyam (seasonal)', 'Bekal Fort'],
+        estimate: 'Travel 780 km total, avg 4h drive/day',
+        image: 'https://picsum.photos/seed/malabar/800/480',
+        tiers: [
+          { name: 'Standard', multiplier: 1 },
+          { name: 'Deluxe', multiplier: 1.2 },
+          { name: 'Luxury', multiplier: 1.45 }
+        ],
+        discountRules: [ { min: 4, percent: 5 }, { min: 8, percent: 10 } ],
+        inclusions: ['Breakfast daily', 'Private vehicle or 2AC train (as noted)', 'Driver allowance, tolls, parking'],
+        exclusions: ['Flights', 'Lunch/Dinner unless stated', 'Entry tickets', 'GST extra'],
+        itinerary: [
+          { day: 1, title: 'Arrive Calicut', transport: 'Airport pickup', distance: '—', time: '—', meals: '—', stay: 'Calicut', details: 'Coastal walk, Malabar cuisine.'},
+          { day: 2, title: 'Calicut → Wayanad', transport: 'Private vehicle', distance: '85 km', time: '3 hr', meals: 'Breakfast', stay: 'Wayanad', details: 'Lakkidi view, Pookode Lake.'},
+          { day: 3, title: 'Wayanad caves & falls', transport: 'Private vehicle', distance: 'Local', time: '6 hr', meals: 'Breakfast', stay: 'Wayanad', details: 'Edakkal Caves, Soochipara falls.'},
+          { day: 4, title: 'Wayanad → Kannur', transport: 'Private vehicle', distance: '115 km', time: '3.5 hr', meals: 'Breakfast', stay: 'Kannur', details: 'Drive-in beach; Theyyam (seasonal).'},
+          { day: 5, title: 'Kannur → Bekal', transport: 'Private vehicle', distance: '100 km', time: '3 hr', meals: 'Breakfast', stay: 'Bekal', details: 'Bekal Fort & beach.'},
+          { day: 6, title: 'Bekal → Kasargod', transport: 'Private vehicle', distance: '20 km', time: '45 min', meals: 'Breakfast', stay: 'Kasargod', details: 'Chandragiri Fort, backwaters.'},
+          { day: 7, title: 'Kasargod → Kochi', transport: 'Train (2AC) or Private', distance: '370 km', time: '5-8 hr', meals: 'Breakfast', stay: 'Kochi', details: 'Transfer to Kochi; Marine Drive.'},
+          { day: 8, title: 'Fort Kochi Heritage', transport: 'Walk + vehicle', distance: 'Local', time: '4 hr', meals: 'Breakfast', stay: 'Kochi', details: 'Synagogue, Dutch Palace, Chinese nets.'},
+          { day: 9, title: 'Departure', transport: 'Private drop', distance: '40 km', time: '1 hr', meals: 'Breakfast', stay: '—', details: 'Airport drop.'}
+        ]
+      },
+      {
+        name: 'Kerala Classic Circuit',
+        places: ['Kochi', 'Munnar', 'Thekkady', 'Alleppey', 'Kovalam', 'Trivandrum'],
+        nights: 9,
+        days: 10,
+        pricePerPerson: 34999,
+        groupDiscount: '6% off for 5+, 11% off for 10+',
+        perspective: 'Signature Kerala blend of hills, wildlife, backwaters and sea',
+        highlights: ['Top Station', 'Periyar spice walk', 'Houseboat stay', 'Lighthouse beach'],
+        estimate: 'Travel 900 km total, avg 4h drive/day',
+        image: '1703_Thekkady2.jpg',
+        tiers: [
+          { name: 'Standard', multiplier: 1 },
+          { name: 'Deluxe', multiplier: 1.2 },
+          { name: 'Luxury', multiplier: 1.5 }
+        ],
+        discountRules: [ { min: 5, percent: 6 }, { min: 10, percent: 11 } ],
+        inclusions: ['Breakfast daily', 'Private AC vehicle', '1N houseboat with meals', 'Driver, toll, parking'],
+        exclusions: ['Flights', 'Entry fees', 'Personal expenses', 'GST extra'],
+        itinerary: [
+          { day: 1, title: 'Arrive Kochi', transport: 'Private pickup', distance: '—', time: '—', meals: '—', stay: 'Kochi', details: 'Harbor sunset (optional).'},
+          { day: 2, title: 'Kochi → Munnar', transport: 'Private vehicle', distance: '130 km', time: '4 hr', meals: 'Breakfast', stay: 'Munnar', details: 'Waterfalls en route; Tea Museum.'},
+          { day: 3, title: 'Munnar full day', transport: 'Private vehicle', distance: 'Local', time: '6 hr', meals: 'Breakfast', stay: 'Munnar', details: 'Eravikulam NP, Top Station.'},
+          { day: 4, title: 'Munnar → Thekkady', transport: 'Private vehicle', distance: '90 km', time: '3 hr', meals: 'Breakfast', stay: 'Thekkady', details: 'Spice garden; martial arts show (optional).'},
+          { day: 5, title: 'Periyar boat & walk', transport: 'Shared boat + private', distance: 'Local', time: '4 hr', meals: 'Breakfast', stay: 'Thekkady', details: 'Periyar Lake, spice market.'},
+          { day: 6, title: 'Thekkady → Alleppey (HB)', transport: 'Private + houseboat', distance: '140 km', time: '4 hr', meals: 'Lunch & Dinner', stay: 'Houseboat', details: 'Backwater overnight.'},
+          { day: 7, title: 'Alleppey → Kovalam', transport: 'Private vehicle', distance: '160 km', time: '4.5 hr', meals: 'Breakfast', stay: 'Kovalam', details: 'Beach leisure.'},
+          { day: 8, title: 'Kovalam & Trivandrum', transport: 'Private vehicle', distance: 'Local', time: '4 hr', meals: 'Breakfast', stay: 'Kovalam', details: 'Temple & museum.'},
+          { day: 9, title: 'Kovalam leisure', transport: '—', distance: '—', time: '—', meals: 'Breakfast', stay: 'Kovalam', details: 'Relax / Ayurveda.'},
+          { day: 10, title: 'Departure', transport: 'Private drop (TRV)', distance: '15 km', time: '30 min', meals: 'Breakfast', stay: '—', details: 'Airport drop.'}
+        ]
+      },
+      {
+        name: 'Rainforest & Waterfalls Odyssey',
+        places: ['Athirappilly', 'Sholayar', 'Vazhachal', 'Valparai', 'Parambikulam', 'Nelliyampathy', 'Kochi'],
+        nights: 6,
+        days: 7,
+        pricePerPerson: 27999,
+        groupDiscount: '5% off for 4+, 10% off for 8+',
+        perspective: "Monsoon magic across Kerala's lush rainforest belt",
+        highlights: ['Athirappilly-Vazhachal', 'Tea estates', 'Wildlife night safari'],
+        estimate: 'Travel 620 km total, avg 3.5h drive/day',
+        image: 'athirapally-falls-in.jpg',
+        tiers: [
+          { name: 'Standard', multiplier: 1 },
+          { name: 'Deluxe', multiplier: 1.15 },
+          { name: 'Luxury', multiplier: 1.4 }
+        ],
+        discountRules: [ { min: 4, percent: 5 }, { min: 8, percent: 10 } ],
+        inclusions: ['Breakfast daily', 'Private AC vehicle', 'Forest entry/vehicle extra (as applicable)'],
+        exclusions: ['Flights', 'Entry fees', 'Personal expenses', 'GST extra'],
+        itinerary: [
+          { day: 1, title: 'Arrive Kochi → Athirappilly', transport: 'Private vehicle', distance: '70 km', time: '2 hr', meals: '—', stay: 'Athirappilly', details: 'Settle in near falls.'},
+          { day: 2, title: 'Athirappilly & Vazhachal', transport: 'Private + walk', distance: 'Local', time: '4 hr', meals: 'Breakfast', stay: 'Athirappilly', details: 'Rainforest trail and viewpoints.'},
+          { day: 3, title: 'Athirappilly → Valparai', transport: 'Private vehicle', distance: '120 km', time: '4 hr', meals: 'Breakfast', stay: 'Valparai', details: 'Hairpin bends; tea estates.'},
+          { day: 4, title: 'Valparai → Parambikulam', transport: 'Private + forest vehicle', distance: '110 km', time: '4 hr', meals: 'Breakfast', stay: 'Parambikulam', details: 'Tiger Reserve safari (subject to slots).'},
+          { day: 5, title: 'Parambikulam → Nelliyampathy', transport: 'Private vehicle', distance: '120 km', time: '4 hr', meals: 'Breakfast', stay: 'Nelliyampathy', details: 'Viewpoints; estates.'},
+          { day: 6, title: 'Nelliyampathy → Kochi', transport: 'Private vehicle', distance: '180 km', time: '5 hr', meals: 'Breakfast', stay: 'Kochi', details: 'Fort Kochi cafés.'},
+          { day: 7, title: 'Departure', transport: 'Private airport drop', distance: '40 km', time: '1 hr', meals: 'Breakfast', stay: '—', details: 'Drop at COK.'}
+        ]
+      }
+    ];
+
+    function renderPackages() {
+      const wrap = document.getElementById('packages-scroll');
+      if (!wrap) return;
+      wrap.innerHTML = packagesData.map(p => `
+        <div class="bg-white rounded-2xl shadow mb-4 overflow-hidden border border-gray-100">
+          <div class="h-36 w-full overflow-hidden">
+            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover" onerror="this.src='https://picsum.photos/seed/kerala${encodeURIComponent(p.name)}/800/480'">
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between items-start">
+              <h3 class="text-base font-bold">${p.name}</h3>
+              <span class="text-xs bg-green-100 text-green-700 rounded px-2">₹${p.pricePerPerson.toLocaleString()} pp</span>
+            </div>
+            <div class="text-[11px] text-gray-600 mt-1">
+              <span>${p.days}D/${p.nights}N</span>
+              <span class="mx-1">·</span>
+              <span>${p.estimate}</span>
+            </div>
+            <p class="text-xs text-gray-700 mt-2">${p.perspective}</p>
+            <div class="mt-2 flex flex-wrap gap-1 text-[11px]">
+              ${p.places.map(pl => `<span class=\"px-2 py-1 rounded-full bg-gray-100\">${pl}</span>`).join('')}
+            </div>
+            <div class="mt-2 text-[11px] text-gray-600">
+              Highlights: ${p.highlights.join(', ')}
+            </div>
+            <div class="mt-2 flex justify-between items-center">
+              <span class="text-[11px] text-green-700 font-semibold">Group: ${p.groupDiscount}</span>
+              <button class="bg-green-700 text-white px-3 py-2 rounded-full text-xs font-semibold" onclick="bookPackage('${p.name}')">Book Package</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function showPackagesContent() { navigateToSection('packages'); renderPackages(); }
+    function bookPackage(name) { showPackageDetails(name); }
+    function showPackageDetails(name) {
+      const pkg = packagesData.find(p => p.name === name);
+      if (!pkg) return;
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
+      const daysHtml = (pkg.itinerary || []).map(d => `
+        <div class="border border-gray-200 rounded-lg p-3 mb-2 bg-gray-50">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-sm font-semibold">Day ${d.day}: ${d.title}</p>
+              <p class="text-xs text-gray-600 mt-1">Transport: ${d.transport} · Distance: ${d.distance} · Time: ${d.time}</p>
+            </div>
+            <span class="text-[10px] px-2 py-0.5 rounded-full bg-green-100 text-green-700">${pkg.days}D/${pkg.nights}N</span>
+          </div>
+          <p class="text-xs text-gray-700 mt-2">${d.details}</p>
+          <div class="mt-2 text-[11px] text-gray-600">Meals: ${d.meals} · Stay: ${d.stay}</div>
+        </div>
+      `).join('');
+      const tierOptions = (pkg.tiers || [{name:'Standard',multiplier:1}]).map((t,i)=>`<option value="${t.multiplier}" ${i===0?'selected':''}>${t.name}</option>`).join('');
+      const discountText = (pkg.discountRules||[]).map(r=>`${r.percent}% for ${r.min}+`).join(', ');
+      modal.innerHTML = `
+        <div class="bg-white rounded-2xl p-6 m-4 w-full max-w-md max-h-[85vh] overflow-y-auto">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-lg font-bold">${pkg.name}</h3>
+            <button class="text-gray-500 text-xl" onclick="this.closest('.fixed').remove()">×</button>
+          </div>
+          <div class="rounded-xl overflow-hidden mb-3 h-36">
+            <img src="${pkg.image}" alt="${pkg.name}" class="w-full h-full object-cover">
+          </div>
+          <div class="text-[11px] text-gray-700 mb-2"><span class="font-semibold">Perspective:</span> ${pkg.perspective}</div>
+          <div class="text-[11px] text-gray-600 mb-3">Highlights: ${pkg.highlights.join(', ')}</div>
+          <div class="flex justify-between items-center mb-3 text-[11px]">
+            <span>Duration: ${pkg.days}D/${pkg.nights}N</span>
+            <span>Est.: ${pkg.estimate}</span>
+            <span>Group: ${pkg.groupDiscount}</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mb-3 text-[11px]">
+            <label class="flex flex-col">Tier<select id="tier" class="border rounded px-2 py-1">${tierOptions}</select></label>
+            <label class="flex flex-col">Group Size<input id="grp" type="number" min="1" value="2" class="border rounded px-2 py-1"/></label>
+          </div>
+          <div class="flex items-center justify-between text-[11px] mb-1">
+            <span id="pp" class="text-green-700 font-bold"></span>
+            <span id="total" class="font-semibold"></span>
+          </div>
+          <div id="disc" class="text-[10px] text-gray-600 mb-3">${discountText ? 'Discounts: '+discountText : ''}</div>
+          <div class="mb-3">
+            <p class="text-sm font-semibold mb-1">Inclusions</p>
+            <ul class="list-disc ml-5 text-xs text-gray-700">${(pkg.inclusions||[]).map(i=>`<li>${i}</li>`).join('')}</ul>
+          </div>
+          <div class="mb-3">
+            <p class="text-sm font-semibold mb-1">Exclusions</p>
+            <ul class="list-disc ml-5 text-xs text-gray-700">${(pkg.exclusions||[]).map(i=>`<li>${i}</li>`).join('')}</ul>
+          </div>
+          <div class="text-sm font-semibold mb-2">Itinerary</div>
+          ${daysHtml}
+          <div class="mt-4 flex justify-between items-center">
+            <span class="text-green-700 font-bold">Base: ₹${pkg.pricePerPerson.toLocaleString()} pp</span>
+            <button class="bg-green-700 text-white px-4 py-2 rounded-full text-xs font-semibold" onclick="alert('Proceed to booking flow (coming soon)')">Proceed</button>
+          </div>
+        </div>`;
+      document.body.appendChild(modal);
+      (function(){
+        const base = pkg.pricePerPerson;
+        const rules = pkg.discountRules || [];
+        const tierEl = modal.querySelector('#tier');
+        const grpEl = modal.querySelector('#grp');
+        const ppEl = modal.querySelector('#pp');
+        const totalEl = modal.querySelector('#total');
+        const discEl = modal.querySelector('#disc');
+        function calc(){
+          const people = Math.max(1, parseInt(grpEl.value || '1'));
+          const mult = parseFloat(tierEl.value || '1');
+          let discount = 0; rules.forEach(r=>{ if(people>=r.min) discount = Math.max(discount, r.percent); });
+          const pp = Math.round(base*mult*(1-discount/100));
+          ppEl.textContent = '₹'+pp.toLocaleString()+' pp';
+          totalEl.textContent = '₹'+(pp*people).toLocaleString()+' total';
+          if (rules.length) discEl.textContent = (discountText? ('Discounts: '+discountText+' | ') : '') + (discount>0? ('-'+discount+'% applied') : 'No group discount');
+        }
+        tierEl.addEventListener('change', calc);
+        grpEl.addEventListener('input', calc);
+        calc();
+      })();
+    }
+
+    // Destinations list (legacy) and slideshow renderer
+    const destinationsData = [
+      {
+        name: 'Wayanad',
+        image: 'https://storage.googleapis.com/a1aa/image/eb95a9e6-e9a5-4f50-8bbc-25eef0afb6b3.jpg',
+        description: 'Forest-clad highlands with wildlife sanctuaries, waterfalls, Edakkal Caves and scenic treks.',
+        rating: 4.6,
+        reviews: 1284,
+        duration: '2–3 days',
+        fees: 'Most spots free; Edakkal Caves ~₹50',
+        bestTime: 'Oct–Mar'
+      },
+      {
+        name: 'Munnar',
+        image: 'https://storage.googleapis.com/a1aa/image/4cbcd9d2-7bba-4019-8eab-e8427443f436.jpg',
+        description: 'Rolling tea gardens, misty valleys, Eravikulam NP and viewpoints like Top Station.',
+        rating: 4.7,
+        reviews: 2011,
+        duration: '2–3 days',
+        fees: 'Eravikulam NP ~₹200',
+        bestTime: 'Sep–Mar'
+      },
+      {
+        name: 'Alappuzha (Alleppey)',
+        image: 'https://storage.googleapis.com/a1aa/image/396d76a5-f025-4006-eb1e-393ee1bbc027.jpg',
+        description: 'Backwater paradise with houseboat cruises, narrow canals and Vembanad Lake vistas.',
+        rating: 4.5,
+        reviews: 1532,
+        duration: '1–2 days',
+        fees: 'Houseboats vary (₹6k–₹15k/night)',
+        bestTime: 'Nov–Feb'
+      },
+      {
+        name: 'Kochi (Fort Kochi)',
+        image: 'https://storage.googleapis.com/a1aa/image/dd0cd2bf-14a9-4f08-fb91-b5319f84314b.jpg',
+        description: 'Historic port city with Chinese fishing nets, spice markets and heritage streets.',
+        rating: 4.4,
+        reviews: 1876,
+        duration: '1–2 days',
+        fees: 'Mostly free; museum tickets ₹20–₹150',
+        bestTime: 'Aug–Mar'
+      },
+      {
+        name: 'Kumarakom',
+        image: 'https://storage.googleapis.com/a1aa/image/4121c854-48c8-4fe2-37ff-5026ea97627a.jpg',
+        description: 'Lakeside retreats and the Kumarakom Bird Sanctuary on Vembanad Lake.',
+        rating: 4.5,
+        reviews: 932,
+        duration: '1–2 days',
+        fees: 'Bird Sanctuary ~₹100',
+        bestTime: 'Nov–Feb'
+      },
+      {
+        name: 'Thekkady (Periyar)',
+        image: 'https://storage.googleapis.com/a1aa/image/650bb2a0-c5bd-417b-298e-6498809183cd.jpg',
+        description: 'Periyar Tiger Reserve, boat safaris, spice plantations and bamboo rafting.',
+        rating: 4.6,
+        reviews: 1410,
+        duration: '1–2 days',
+        fees: 'Periyar entry ~₹150; boat ~₹255',
+        bestTime: 'Oct–Mar'
+      },
+      {
+        name: 'Varkala',
+        image: 'https://storage.googleapis.com/a1aa/image/a4d18961-0fc6-4c92-b6aa-736d675ca07d.jpg',
+        description: 'Cliff-fringed beaches, cafes, mineral springs and striking Arabian Sea sunsets.',
+        rating: 4.6,
+        reviews: 1182,
+        duration: '1–2 days',
+        fees: 'Beach free',
+        bestTime: 'Nov–Mar'
+      },
+      {
+        name: 'Kovalam',
+        image: 'https://storage.googleapis.com/a1aa/image/4cbcd9d2-7bba-4019-8eab-e8427443f436.jpg',
+        description: 'Lighthouse-topped headland, crescent beaches and Ayurvedic wellness retreats.',
+        rating: 4.4,
+        reviews: 990,
+        duration: '1–2 days',
+        fees: 'Beach free; lighthouse ~₹20',
+        bestTime: 'Oct–Mar'
+      },
+      {
+        name: 'Athirappilly Waterfalls',
+        image: 'https://storage.googleapis.com/a1aa/image/396d76a5-f025-4006-eb1e-393ee1bbc027.jpg',
+        description: "Kerala's Niagara cascading through lush rainforest; superb in monsoon.",
+        rating: 4.5,
+        reviews: 845,
+        duration: 'Half–1 day',
+        fees: 'Entry ~₹50',
+        bestTime: 'Jun–Oct'
+      },
+      {
+        name: 'Bekal Fort',
+        image: 'https://storage.googleapis.com/a1aa/image/653235bc-8b62-4158-f9cd-87fc55569d81.jpg',
+        description: 'Seaside laterite fort with sweeping sea views and a tranquil beach.',
+        rating: 4.4,
+        reviews: 721,
+        duration: 'Half day',
+        fees: 'Entry ~₹25',
+        bestTime: 'Oct–Feb'
+      },
+      {
+        name: 'Ponmudi',
+        image: 'https://picsum.photos/seed/ponmudi/800/480',
+        description: 'Serene hill station near Thiruvananthapuram with hairpin bends and tea gardens.',
+        rating: 4.3,
+        reviews: 504,
+        duration: '1 day',
+        fees: 'Road/entry ~₹20',
+        bestTime: 'Sep–Feb'
+      }
+    ];
+
+    function renderDestinationsList() {
+      const container = document.getElementById('destinations-scroll');
+      if (!container) return;
+      const makeCard = (d) => `
+        <div class="bg-white rounded-2xl shadow-md p-4 mb-5">
+          <div class="relative h-40 mb-3">
+            <img src="${d.image}" alt="${d.name}" class="w-full h-full object-cover rounded-xl">
+            <button aria-label="Share" class="absolute top-2 right-2 bg-white/90 rounded-full p-2 shadow" onclick="shareStay('${d.name}')"><i class="fas fa-share"></i></button>
+          </div>
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-base font-bold">${d.name}</h3>
+            <span class="text-xs bg-green-100 text-green-700 rounded px-2">${d.rating.toFixed(1)} ⭐</span>
+          </div>
+          <div class="flex items-center gap-2 text-[11px] text-gray-600 mb-2">
+            <span>${d.reviews.toLocaleString()} reviews</span>
+            <span>·</span>
+            <span>Best time: ${d.bestTime}</span>
+          </div>
+          <p class="text-xs text-gray-600 mb-3">${d.description}</p>
+          <div class="flex flex-wrap gap-2 text-[11px] mb-3">
+            <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">Visit: ${d.duration}</span>
+            <span class="px-2 py-1 rounded-full bg-gray-100 text-gray-700">Fees: ${d.fees}</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4 text-gray-600">
+              <button class="flex items-center gap-1" onclick="toggleLike(this.querySelector('i'))"><i class="far fa-heart"></i><span class="text-xs">Like</span></button>
+              <button class="flex items-center gap-1" onclick="showComments(this.querySelector('i'))"><i class="far fa-comment"></i><span class="text-xs">Comment</span></button>
+            </div>
+            <button class="bg-green-700 text-white px-4 py-2 rounded-full text-xs font-semibold" onclick="bookDestination('${d.name}')">Book a Trip</button>
+          </div>
+        </div>`;
+      container.innerHTML = destinationsData.map(makeCard).join('');
+    }
+
+    // Slideshow data for 6 destinations
+    const destinationSlides = [
+      {
+        name: 'Munnar',
+        photos: [
+          'Munnar_hillstation_kerala.jpg',
+          'https://picsum.photos/seed/munnar1/800/480',
+          'https://picsum.photos/seed/munnar2/800/480',
+          'https://picsum.photos/seed/munnar3/800/480',
+          'https://picsum.photos/seed/munnar4/800/480'
+        ],
+        description: "Munnar is Kerala's iconic hill station with rolling tea plantations, misty valleys, waterfalls and trekking trails.",
+        history: 'Developed as a tea estate town during the British era, Munnar became a high-range escape known for its cool climate and the Neelakurinji bloom every 12 years.',
+        rating: 4.7,
+        reviews: 2011,
+        duration: '2–3 days',
+        fees: 'Eravikulam NP ~₹200',
+        bestTime: 'Sep–Mar'
+      },
+      {
+        name: 'Thekkady (Periyar)',
+        photos: [
+          'data:image/jpeg;base64,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',
+          'https://picsum.photos/seed/thekkady1/800/480',
+          'https://picsum.photos/seed/thekkady2/800/480',
+          'https://picsum.photos/seed/thekkady3/800/480'
+        ],
+        description: 'Home to Periyar Tiger Reserve with lake safaris, spice gardens and bamboo rafting.',
+        history: 'Periyar Reserve was established in 1934 around the Mullaperiyar Dam lake; its rich biodiversity draws researchers and nature lovers.',
+        rating: 4.6,
+        reviews: 1410,
+        duration: '1–2 days',
+        fees: 'Entry ~₹150; boat ~₹255',
+        bestTime: 'Oct–Mar'
+      },
+      {
+        name: 'Athirappilly Waterfalls',
+        photos: [
+          'athirapally-falls-in.jpg',
+          'https://picsum.photos/seed/athira1/800/480',
+          'https://picsum.photos/seed/athira2/800/480',
+          'https://picsum.photos/seed/athira3/800/480'
+        ],
+        description: "Kerala's Niagara, a dramatic cascade through the Sholayar rainforest, spectacular in monsoon.",
+        history: 'The Chalakudy River forms the falls; the surrounding forests host hornbills and diverse endemic flora.',
+        rating: 4.5,
+        reviews: 845,
+        duration: 'Half–1 day',
+        fees: 'Entry ~₹50',
+        bestTime: 'Jun–Oct'
+      },
+      {
+        name: 'Kochi (Fort Kochi)',
+        photos: [
+          'https://picsum.photos/seed/kochi1/800/480',
+          'https://picsum.photos/seed/kochi2/800/480',
+          'https://picsum.photos/seed/kochi3/800/480'
+        ],
+        description: "Historic port city with Chinese fishing nets, spice markets, synagogues and art cafés.",
+        history: "A crossroads of Arab, Portuguese, Dutch and British trade for centuries, visible in Fort Kochi's architecture.",
+        rating: 4.4,
+        reviews: 1876,
+        duration: '1–2 days',
+        fees: 'Museums ₹20–₹150',
+        bestTime: 'Aug–Mar'
+      },
+      {
+        name: 'Alappuzha (Alleppey)',
+        photos: [
+          'alleppey-kerala-tourism-entry-fee-timings-holidays-reviews-header.jpg',
+          'https://picsum.photos/seed/alleppey1/800/480',
+          'https://picsum.photos/seed/alleppey2/800/480',
+          'https://picsum.photos/seed/alleppey3/800/480'
+        ],
+        description: 'Dreamy backwaters, houseboat cruises and paddy fields along Vembanad Lake.',
+        history: "Once a thriving coir and spice hub, Alleppey grew into Kerala's backwater tourism capital.",
+        rating: 4.5,
+        reviews: 1532,
+        duration: '1–2 days',
+        fees: 'Houseboats vary (₹6k–₹15k/night)',
+        bestTime: 'Nov–Feb'
+      },
+      {
+        name: 'Kumarakom',
+        photos: [
+          'https://picsum.photos/seed/kumar1/800/480',
+          'https://picsum.photos/seed/kumar2/800/480',
+          'https://picsum.photos/seed/kumar3/800/480'
+        ],
+        description: 'Lakeside village retreats and the renowned Kumarakom Bird Sanctuary.',
+        history: 'Part of the Vembanad wetland system; conservation efforts sustain migratory bird habitats.',
+        rating: 4.5,
+        reviews: 932,
+        duration: '1–2 days',
+        fees: 'Bird Sanctuary ~₹100',
+        bestTime: 'Nov–Feb'
+      }
+    ];
+
+    let currentDestinationIndex = 0;
+    let currentPhotoIndex = 0;
+
+    function renderDestinationSlideshow() {
+      const container = document.getElementById('destinations-scroll');
+      if (!container) return;
+      const d = destinationSlides[currentDestinationIndex];
+      const photo = d.photos[currentPhotoIndex % d.photos.length];
+      container.innerHTML = `
+        <div class="relative rounded-2xl overflow-hidden">
+          <img src="${photo}" alt="${d.name}" class="w-full h-48 sm:h-60 object-cover rounded-2xl" onerror="nextPhoto()">
+          <div class="absolute inset-0 flex items-center justify-between px-2">
+            <button aria-label="Prev photo" class="bg-white/90 hover:bg-white shadow rounded-full p-2" onclick="prevPhoto()"><i class="fas fa-chevron-left"></i></button>
+            <button aria-label="Next photo" class="bg-white/90 hover:bg-white shadow rounded-full p-2" onclick="nextPhoto()"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            ${d.photos.map((_,i)=>`<span class=\"w-2 h-2 rounded-full ${i===currentPhotoIndex?'bg-white':'bg-white/60'}\"></span>`).join('')}
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="flex justify-between items-start mb-1">
+            <h3 class="text-base font-bold">${d.name}</h3>
+            <span class="text-xs bg-green-100 text-green-700 rounded px-2">${d.rating.toFixed(1)} ⭐</span>
+          </div>
+          <div class="flex items-center gap-2 text-[11px] text-gray-600 mb-2">
+            <span>${d.reviews.toLocaleString()} reviews</span>
+            <span>·</span>
+            <span>Best time: ${d.bestTime}</span>
+          </div>
+          <p class="text-xs text-gray-700 mb-3">${d.description}</p>
+          <div class="text-[11px] text-gray-700 mb-3 space-x-2">
+            <span class="px-2 py-1 rounded-full bg-gray-100">Visit: ${d.duration}</span>
+            <span class="px-2 py-1 rounded-full bg-gray-100">Fees: ${d.fees}</span>
+          </div>
+          <div class="text-xs text-gray-600 mb-4">
+            <p class="font-semibold mb-1">History</p>
+            <p>${d.history}</p>
+          </div>
+          <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-4 text-gray-600">
+              <button class="flex items-center gap-1" onclick="toggleLike(this.querySelector('i'))"><i class="far fa-heart"></i><span class="text-xs">Like</span></button>
+              <button class="flex items-center gap-1" onclick="showComments(this.querySelector('i'))"><i class="far fa-comment"></i><span class="text-xs">Comment</span></button>
+            </div>
+            <button class="bg-green-700 text-white px-4 py-2 rounded-full text-xs font-semibold" onclick="bookDestination('${d.name}')">Book my Trip</button>
+          </div>
+        </div>
+        <div class="mt-4 flex justify-between">
+          <button class="px-3 py-2 rounded-lg border text-xs" onclick="prevDestination()">Prev place</button>
+          <button class="px-3 py-2 rounded-lg border text-xs" onclick="nextDestination()">Next place</button>
+        </div>
+      `;
+    }
+
+    function nextDestination() {
+      currentDestinationIndex = (currentDestinationIndex + 1) % destinationSlides.length;
+      currentPhotoIndex = 0;
+      renderDestinationSlideshow();
+    }
+    function prevDestination() {
+      currentDestinationIndex = (currentDestinationIndex - 1 + destinationSlides.length) % destinationSlides.length;
+      currentPhotoIndex = 0;
+      renderDestinationSlideshow();
+    }
+    function nextPhoto() {
+      const d = destinationSlides[currentDestinationIndex];
+      currentPhotoIndex = (currentPhotoIndex + 1) % d.photos.length;
+      renderDestinationSlideshow();
+    }
+    function prevPhoto() {
+      const d = destinationSlides[currentDestinationIndex];
+      currentPhotoIndex = (currentPhotoIndex - 1 + d.photos.length) % d.photos.length;
+      renderDestinationSlideshow();
+    }
+    function scrollDestinations(delta) {
+      const container = document.getElementById('destinations-scroll');
+      if (!container) return;
+      container.scrollBy({ top: delta, behavior: 'smooth' });
     }
 
     function showHomeContent() {
@@ -1325,12 +2121,18 @@
         <div class="bg-white rounded-2xl p-6 m-4 max-w-sm w-full">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-bold">Profile</h3>
-            <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-gray-500 text-xl">×</button>
+            <button onclick="this.parentElement.parentElement.parentElement.remove(); showToast('Closed')" class="text-gray-500 text-xl">×</button>
           </div>
           <div class="text-center">
             <img src="${saved.photoURL || 'https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg'}" class="w-20 h-20 rounded-full mx-auto mb-4" alt="Profile">
             <h4 class="font-bold text-lg">${saved.name || 'Guest'}</h4>
             ${saved.email ? `<p class=\"text-xs text-gray-500\">${saved.email}</p>` : ''}
+            <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
+              <button class="border border-gray-300 py-2 rounded-lg" onclick="showToast('Opening bookings...')">Bookings</button>
+              <button class="border border-gray-300 py-2 rounded-lg" onclick="showToast('Opening wishlist...')">Wishlist</button>
+              <button class="border border-gray-300 py-2 rounded-lg" onclick="showToast('Opening payments...')">Payments</button>
+              <button class="border border-gray-300 py-2 rounded-lg" onclick="showToast('Opening settings...')">Settings</button>
+            </div>
             <div class="mt-4 text-left text-sm text-gray-700 space-y-1">
               ${saved.phone ? `<div><span class=\"text-gray-500\">Phone:</span> ${saved.phone}</div>` : ''}
               ${saved.address ? `<div><span class=\"text-gray-500\">Address:</span> ${saved.address}</div>` : ''}
@@ -1338,8 +2140,8 @@
               ${saved.state ? `<div><span class=\"text-gray-500\">State:</span> ${saved.state}</div>` : ''}
               ${saved.country ? `<div><span class=\"text-gray-500\">Country:</span> ${saved.country}</div>` : ''}
             </div>
-            <div class="mt-4 space-y-2">
-              <button class="w-full border border-gray-300 py-2 rounded-lg" onclick="openAuthModal()">Edit Details</button>
+            <div class="mt-4 grid grid-cols-2 gap-2">
+              <button class="w-full border border-gray-300 py-2 rounded-lg" onclick="openAuthModal(); showToast('Edit profile')">Edit Details</button>
               <button class="w-full bg-red-600 text-white py-2 rounded-lg" onclick="signOutUser()">Sign out</button>
             </div>
           </div>
@@ -1376,7 +2178,7 @@
     function handleServiceClick(service) {
       const serviceMap = {
         'Trips': () => showTripsContent(),
-        'Packages': () => showPackagesContent(),
+        'Packages': () => { navigateToSection('packages'); renderPackages(); },
         'Stays': () => navigateToSection('stays'),
         'Travel Desk': () => showTravelDesk(),
         'Directions': () => navigateToSection('directions')
@@ -1532,6 +2334,25 @@
 
     function performSearch(query) {
       alert(`Searching for: ${query}`);
+    }
+
+    function renderHomeHotels() {
+      const container = document.getElementById('home-hotels');
+      if (!container) return;
+      container.innerHTML = '';
+      const top = [...staysData].sort((a,b)=> b.rating - a.rating).slice(0, 12);
+      top.forEach((s, i) => {
+        const tile = document.createElement('div');
+        tile.className = 'min-w-[140px] rounded-xl overflow-hidden relative cursor-pointer touch-target btn-active hover:scale-105 transition-transform';
+        tile.onclick = () => showStayDetails(s.name);
+        tile.innerHTML = `
+          <img src="https://picsum.photos/seed/${encodeURIComponent(s.name)}H${i}/400/260" alt="${s.name}" class="w-full h-[100px] object-cover rounded-xl">
+          <div class="absolute top-2 left-2 bg-black bg-opacity-50 text-white text-[10px] rounded px-1">${(s.type||'Hotel')}</div>
+          <p class="text-xs mt-1 text-gray-700 truncate">${s.name}</p>
+          <div class="flex items-center gap-1 text-[10px] text-gray-600"><span>⭐ ${s.rating.toFixed(1)}</span><span>·</span><span>${s.price? '₹'+s.price.toLocaleString(): ''}</span></div>
+        `;
+        container.appendChild(tile);
+      });
     }
 
     // Location functions
