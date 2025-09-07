@@ -24,33 +24,33 @@
 
     function openAuthModal() {
       const modal = document.createElement('div');
-      modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
+      modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
       modal.innerHTML = `
-        <div class="bg-white rounded-2xl p-6 m-4 w-full max-w-md">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-bold">Sign in / Sign up</h3>
+        <div class="bg-white rounded-2xl p-4 sm:p-6 m-2 sm:m-4 w-full max-w-md">
+          <div class="flex justify-between items-center mb-3 sm:mb-4">
+            <h3 class="text-base sm:text-lg font-bold">Sign in / Sign up</h3>
             <button class="text-gray-500 text-xl" onclick="this.closest('.fixed').remove()">×</button>
           </div>
-          <div class="space-y-3">
+          <div class="space-y-2 sm:space-y-3">
             <div id="gsi-container" class="w-full flex justify-center"></div>
-            <div class="text-[11px] text-gray-500 text-center">or fill your details</div>
-            <div class="grid grid-cols-2 gap-2">
-              <input id="reg-name" class="bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm" placeholder="Full name"/>
-              <input id="reg-age" class="bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm" placeholder="Age" type="number"/>
-              <select id="reg-gender" class="bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm">
+            <div class="text-[10px] sm:text-[11px] text-gray-500 text-center">or fill your details</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <input id="reg-name" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm" placeholder="Full name"/>
+              <input id="reg-age" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm" placeholder="Age" type="number"/>
+              <select id="reg-gender" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm">
                 <option>Gender</option>
                 <option>Male</option>
                 <option>Female</option>
                 <option>Other</option>
               </select>
-              <input id="reg-phone" class="bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm" placeholder="Phone"/>
-              <input id="reg-address" class="col-span-2 bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm" placeholder="Home address"/>
-              <input id="reg-city" class="bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm" placeholder="City"/>
-              <input id="reg-state" class="bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm" placeholder="State" value="Kerala"/>
-              <input id="reg-country" class="bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm" placeholder="Country" value="India"/>
-              <input id="reg-pincode" class="bg-white border border-gray-200 rounded-lg py-2 px-3 text-sm" placeholder="Pincode"/>
+              <input id="reg-phone" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm" placeholder="Phone"/>
+              <input id="reg-address" class="col-span-1 sm:col-span-2 bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm" placeholder="Home address"/>
+              <input id="reg-city" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm" placeholder="City"/>
+              <input id="reg-state" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm" placeholder="State" value="Kerala"/>
+              <input id="reg-country" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm" placeholder="Country" value="India"/>
+              <input id="reg-pincode" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 text-[10px] sm:text-sm" placeholder="Pincode"/>
             </div>
-            <button class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg" onclick="completeManualSignup()">Continue</button>
+            <button class="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-lg text-sm" onclick="completeManualSignup()">Continue</button>
           </div>
         </div>`;
       document.body.appendChild(modal);
@@ -427,6 +427,29 @@
         width: 100%;
         max-width: 100%;
       }
+      
+      /* Improve touch targets on mobile */
+      .touch-target {
+        min-height: 48px;
+        min-width: 48px;
+      }
+      
+      /* Better spacing for mobile */
+      .mobile-padding {
+        padding: 0.75rem;
+      }
+      
+      /* Smaller text on mobile for better fit */
+      .mobile-text {
+        font-size: 0.75rem;
+        line-height: 1.2;
+      }
+      
+      /* Stack elements vertically on mobile */
+      .mobile-vertical {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
     }
     
     @media (min-width: 641px) and (max-width: 1024px) {
@@ -452,8 +475,21 @@
     @media (max-width: 640px) {
       .phone-shell {
         width: 100%;
-        height: auto;
-        min-height: 560px;
+        height: 100vh;
+        min-height: 100vh;
+        max-height: 100vh;
+      }
+      
+      /* Ensure proper mobile viewport */
+      body {
+        margin: 0;
+        padding: 0.5rem;
+        overflow-x: hidden;
+      }
+      
+      main {
+        gap: 0.5rem;
+        padding: 0;
       }
     }
     /* Kerala chips */
@@ -478,13 +514,13 @@
   <main class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 place-items-center gap-4 lg:gap-6 max-w-[1400px] mx-auto">
    <!-- Left phone -->
    <section class="relative phone-shell bg-[#f0f8f7] rounded-3xl shadow-lg flex flex-col overflow-hidden" data-section="home">
-    <div class="p-4 flex justify-between items-center">
+    <div class="p-3 sm:p-4 flex justify-between items-center">
      <button aria-label="Menu" class="text-gray-700 text-xl touch-target btn-active p-2 rounded-lg hover:bg-gray-100" onclick="toggleMenu(this)">
       <i class="fas fa-bars">
       </i>
      </button>
-     <img alt="User profile picture with notification red dot" class="w-10 h-10 rounded-full relative cursor-pointer touch-target" height="40" src="https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg" width="40" onclick="showProfile()"/>
-     <span aria-hidden="true" class="absolute top-5 right-5 w-3.5 h-3.5 bg-red-600 rounded-full border-2 border-white cursor-pointer" onclick="showNotifications()">
+     <img alt="User profile picture with notification red dot" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full relative cursor-pointer touch-target" height="40" src="https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg" width="40" onclick="showProfile()"/>
+     <span aria-hidden="true" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-3 h-3 sm:w-3.5 sm:h-3.5 bg-red-600 rounded-full border-2 border-white cursor-pointer" onclick="showNotifications()">
      </span>
     </div>
     <div class="relative flex-grow">
@@ -495,209 +531,209 @@
        </path>
       </svg>
      </div>
-     <h2 class="absolute top-[110px] left-6 text-white text-2xl font-extrabold tracking-widest drop-shadow-lg">
+     <h2 class="absolute top-[110px] left-4 sm:left-6 text-white text-xl sm:text-2xl font-extrabold tracking-widest drop-shadow-lg">
       Explore Kerala
      </h2>
     </div>
-     <div class="px-6 py-4 grid grid-cols-3 gap-y-6 gap-x-8 justify-items-center">
+     <div class="px-4 sm:px-6 py-3 sm:py-4 grid grid-cols-3 gap-y-4 sm:gap-y-6 gap-x-4 sm:gap-x-8 justify-items-center">
      <div class="flex flex-col items-center space-y-1 cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="handleServiceClick('Trips')">
-      <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-md">
-       <img alt="Icon of a green car with luggage on top" class="w-10 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/117c436c-1b2b-4495-295e-974b1c506f30.jpg" width="40"/>
+      <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center shadow-md">
+       <img alt="Icon of a green car with luggage on top" class="w-6 h-6 sm:w-10 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/117c436c-1b2b-4495-295e-974b1c506f30.jpg" width="40"/>
       </div>
-      <span class="text-xs text-gray-600">
+      <span class="text-[10px] sm:text-xs text-gray-600">
        Trips
       </span>
      </div>
      <div class="flex flex-col items-center space-y-1 cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="handleServiceClick('Packages')">
-      <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-md">
-       <img alt="Icon of blue suitcase and palm tree" class="w-10 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/b990de3f-4377-40d4-bc87-415b4f56f9e5.jpg" width="40"/>
+      <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center shadow-md">
+       <img alt="Icon of blue suitcase and palm tree" class="w-6 h-6 sm:w-10 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/b990de3f-4377-40d4-bc87-415b4f56f9e5.jpg" width="40"/>
       </div>
-      <span class="text-xs text-gray-600">
+      <span class="text-[10px] sm:text-xs text-gray-600">
        Packages
       </span>
      </div>
      <div class="flex flex-col items-center space-y-1 cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="handleServiceClick('Stays')">
-      <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-md">
-       <img alt="Icon of a house with palm tree" class="w-10 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/3adf8834-ecb0-48e0-9bfb-8fd7ce2260c4.jpg" width="40"/>
+      <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center shadow-md">
+       <img alt="Icon of a house with palm tree" class="w-6 h-6 sm:w-10 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/3adf8834-ecb0-48e0-9bfb-8fd7ce2260c4.jpg" width="40"/>
       </div>
-      <span class="text-xs text-gray-600">
+      <span class="text-[10px] sm:text-xs text-gray-600">
        Stays
       </span>
      </div>
      <div class="flex flex-col items-center space-y-1 cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="handleServiceClick('Travel Desk')">
-      <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-md">
-       <img alt="Icon of a person at a travel desk" class="w-10 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/65445b59-42a4-4740-ea3a-911c2528c512.jpg" width="40"/>
+      <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center shadow-md">
+       <img alt="Icon of a person at a travel desk" class="w-6 h-6 sm:w-10 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/65445b59-42a4-4740-ea3a-911c2528c512.jpg" width="40"/>
       </div>
-      <span class="text-xs text-gray-600">
+      <span class="text-[10px] sm:text-xs text-gray-600">
        Travel Desk
       </span>
      </div>
      <div class="flex flex-col items-center space-y-1 cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="handleServiceClick('Directions')">
-      <div class="w-16 h-16 rounded-full bg-white flex items-center justify-center shadow-md">
-       <img alt="Icon of a person walking on a map with location pin" class="w-10 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/a647cf8f-a213-46f1-fb8e-350b39ad8029.jpg" width="40"/>
+      <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center shadow-md">
+       <img alt="Icon of a person walking on a map with location pin" class="w-6 h-6 sm:w-10 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/a647cf8f-a213-46f1-fb8e-350b39ad8029.jpg" width="40"/>
       </div>
-      <span class="text-xs text-gray-600">
+      <span class="text-[10px] sm:text-xs text-gray-600">
        Directions
       </span>
      </div>
     </div>
-    <div class="px-6 mt-2">
+    <div class="px-4 sm:px-6 mt-2">
      <div class="flex justify-between items-center mb-2">
-      <h3 class="font-bold text-sm tracking-widest text-gray-900">
+      <h3 class="font-bold text-xs sm:text-sm tracking-widest text-gray-900">
        Top Destinations
       </h3>
-      <a class="text-xs text-green-700 font-semibold hover:underline" href="#">
+      <a class="text-[10px] sm:text-xs text-green-700 font-semibold hover:underline" href="#">
        View All
       </a>
      </div>
-     <div class="grid grid-cols-2 gap-3 mb-4">
+     <div class="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
       <div class="relative rounded-xl overflow-hidden cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="showDestinationDetails('Wayanad')">
-       <img alt="Wayanad elephant in forest" class="w-full h-20 object-cover" height="90" src="https://storage.googleapis.com/a1aa/image/f76050c7-38b6-45fc-c989-40b01444123d.jpg" width="140"/>
-       <div class="absolute top-2 left-2 bg-black bg-opacity-40 text-white text-xs font-semibold px-2 rounded">
+       <img alt="Wayanad elephant in forest" class="w-full h-16 sm:h-20 object-cover" height="90" src="https://storage.googleapis.com/a1aa/image/f76050c7-38b6-45fc-c989-40b01444123d.jpg" width="140"/>
+       <div class="absolute top-1 left-1 sm:top-2 sm:left-2 bg-black bg-opacity-40 text-white text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 rounded">
         Wayanad
        </div>
-       <div class="absolute top-0 left-0 w-10 h-10 rounded-full bg-white bg-opacity-40" style="clip-path: ellipse(40% 100% at 50% 50%)">
+       <div class="absolute top-0 left-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white bg-opacity-40" style="clip-path: ellipse(40% 100% at 50% 50%)">
        </div>
       </div>
       <div class="relative rounded-xl overflow-hidden cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="showDestinationDetails('Kozhikode')">
-       <img alt="Kozhikode sunset hill" class="w-full h-20 object-cover rounded-xl" height="90" src="https://storage.googleapis.com/a1aa/image/dd0cd2bf-14a9-4f08-fb91-b5319f84314b.jpg" width="140"/>
-       <div class="absolute top-2 left-2 bg-black bg-opacity-40 text-white text-xs font-semibold px-2 rounded">
+       <img alt="Kozhikode sunset hill" class="w-full h-16 sm:h-20 object-cover rounded-xl" height="90" src="https://storage.googleapis.com/a1aa/image/dd0cd2bf-14a9-4f08-fb91-b5319f84314b.jpg" width="140"/>
+       <div class="absolute top-1 left-1 sm:top-2 sm:left-2 bg-black bg-opacity-40 text-white text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 rounded">
         Kozhikode
        </div>
       </div>
      </div>
     </div>
-    <div class="px-6 mt-2">
+    <div class="px-4 sm:px-6 mt-2">
      <div class="flex justify-between items-center mb-2">
-      <h3 class="font-bold text-sm tracking-widest text-gray-900">Hotels</h3>
-      <a class="text-xs text-green-700 font-semibold hover:underline" href="#" onclick="navigateToSection('stays')">View All</a>
+      <h3 class="font-bold text-xs sm:text-sm tracking-widest text-gray-900">Hotels</h3>
+      <a class="text-[10px] sm:text-xs text-green-700 font-semibold hover:underline" href="#" onclick="navigateToSection('stays')">View All</a>
      </div>
-     <div id="home-hotels" class="flex space-x-3 overflow-x-auto pb-2"></div>
+     <div id="home-hotels" class="flex space-x-2 sm:space-x-3 overflow-x-auto pb-2"></div>
     </div>
-    <div class="px-6 mt-2">
+    <div class="px-4 sm:px-6 mt-2">
      <div class="flex justify-between items-center mb-2">
-      <h3 class="font-bold text-sm tracking-widest text-gray-900">
+      <h3 class="font-bold text-xs sm:text-sm tracking-widest text-gray-900">
        Festivals/Events
       </h3>
-      <a class="text-xs text-green-700 font-semibold hover:underline" href="#">
+      <a class="text-[10px] sm:text-xs text-green-700 font-semibold hover:underline" href="#">
        View All
       </a>
      </div>
-     <div class="grid grid-cols-2 gap-3">
+     <div class="grid grid-cols-2 gap-2 sm:gap-3">
       <div class="relative rounded-xl overflow-hidden cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="showDestinationDetails('Vallamkali')">
-       <img alt="Vallamkali boat race festival" class="w-full h-20 object-cover rounded-xl" height="90" src="https://storage.googleapis.com/a1aa/image/396d76a5-f025-4006-eb1e-393ee1bbc027.jpg" width="140"/>
-       <div class="absolute top-2 left-2 bg-black bg-opacity-40 text-white text-xs font-semibold px-2 rounded">
+       <img alt="Vallamkali boat race festival" class="w-full h-16 sm:h-20 object-cover rounded-xl" height="90" src="https://storage.googleapis.com/a1aa/image/396d76a5-f025-4006-eb1e-393ee1bbc027.jpg" width="140"/>
+       <div class="absolute top-1 left-1 sm:top-2 sm:left-2 bg-black bg-opacity-40 text-white text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 rounded">
         Vallamkali
        </div>
       </div>
       <div class="relative rounded-xl overflow-hidden cursor-pointer touch-target btn-active hover:scale-105 transition-transform" onclick="showDestinationDetails('Kadhakali')">
-       <img alt="Kadhakali dance festival" class="w-full h-20 object-cover rounded-xl" height="90" src="https://storage.googleapis.com/a1aa/image/da999b81-12bf-48f7-0628-115ff269cefa.jpg" width="140"/>
-       <div class="absolute top-2 left-2 bg-black bg-opacity-40 text-white text-xs font-semibold px-2 rounded">
+       <img alt="Kadhakali dance festival" class="w-full h-16 sm:h-20 object-cover rounded-xl" height="90" src="https://storage.googleapis.com/a1aa/image/da999b81-12bf-48f7-0628-115ff269cefa.jpg" width="140"/>
+       <div class="absolute top-1 left-1 sm:top-2 sm:left-2 bg-black bg-opacity-40 text-white text-[10px] sm:text-xs font-semibold px-1.5 sm:px-2 rounded">
         Kadhakali
        </div>
       </div>
      </div>
     </div>
-    <div class="px-6 pb-6">
-     <h3 class="font-bold text-sm tracking-widest text-gray-900 mb-2">Top Places in Kerala</h3>
-     <div class="space-y-3 text-xs text-gray-700 leading-snug">
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Munnar</p>
-       <p>Hill station famed for rolling tea gardens, misty valleys, Eravikulam National Park and viewpoints like Top Station.</p>
+    <div class="px-4 sm:px-6 pb-4 sm:pb-6">
+     <h3 class="font-bold text-xs sm:text-sm tracking-widest text-gray-900 mb-2">Top Places in Kerala</h3>
+     <div class="space-y-2 sm:space-y-3 text-[10px] sm:text-xs text-gray-700 leading-snug">
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Munnar</p>
+       <p class="text-[9px] sm:text-xs">Hill station famed for rolling tea gardens, misty valleys, Eravikulam National Park and viewpoints like Top Station.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Alappuzha (Alleppey)</p>
-       <p>Backwater paradise known for serene houseboat cruises, narrow canals, paddy fields and the picturesque Vembanad Lake.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Alappuzha (Alleppey)</p>
+       <p class="text-[9px] sm:text-xs">Backwater paradise known for serene houseboat cruises, narrow canals, paddy fields and the picturesque Vembanad Lake.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Kochi (Fort Kochi)</p>
-       <p>Historic port city with colonial streets, Chinese fishing nets, synagogues, spice markets and vibrant art cafés.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Kochi (Fort Kochi)</p>
+       <p class="text-[9px] sm:text-xs">Historic port city with colonial streets, Chinese fishing nets, synagogues, spice markets and vibrant art cafés.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Wayanad</p>
-       <p>Forest-clad highlands offering wildlife sanctuaries, waterfalls, caves at Edakkal, and scenic treks amid coffee estates.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Wayanad</p>
+       <p class="text-[9px] sm:text-xs">Forest-clad highlands offering wildlife sanctuaries, waterfalls, caves at Edakkal, and scenic treks amid coffee estates.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Kumarakom</p>
-       <p>Birdwatcher's haven on Vembanad Lake with tranquil backwaters, luxury resorts and the Kumarakom Bird Sanctuary.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Kumarakom</p>
+       <p class="text-[9px] sm:text-xs">Birdwatcher's haven on Vembanad Lake with tranquil backwaters, luxury resorts and the Kumarakom Bird Sanctuary.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Thekkady (Periyar)</p>
-       <p>Wildlife hotspot known for Periyar Tiger Reserve, boat safaris, spice plantations and bamboo rafting experiences.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Thekkady (Periyar)</p>
+       <p class="text-[9px] sm:text-xs">Wildlife hotspot known for Periyar Tiger Reserve, boat safaris, spice plantations and bamboo rafting experiences.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Varkala</p>
-       <p>Cliff-fringed beaches with golden sands, cafes on the cliff edge, mineral springs and spectacular Arabian Sea sunsets.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Varkala</p>
+       <p class="text-[9px] sm:text-xs">Cliff-fringed beaches with golden sands, cafes on the cliff edge, mineral springs and spectacular Arabian Sea sunsets.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Kovalam</p>
-       <p>Famous for lighthouse-topped headland, crescent beaches, calm waters for swimming and Ayurvedic wellness retreats.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Kovalam</p>
+       <p class="text-[9px] sm:text-xs">Famous for lighthouse-topped headland, crescent beaches, calm waters for swimming and Ayurvedic wellness retreats.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Athirappilly Waterfalls</p>
-       <p>Kerala's "Niagara" cascading through lush rainforest; great for nature walks, photography and monsoon grandeur.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Athirappilly Waterfalls</p>
+       <p class="text-[9px] sm:text-xs">Kerala's "Niagara" cascading through lush rainforest; great for nature walks, photography and monsoon grandeur.</p>
       </div>
-      <div class="bg-white rounded-xl p-3 shadow border border-gray-100">
-       <p class="font-semibold text-gray-900">Bekal Fort</p>
-       <p>Massive seaside fort in Kasaragod with laterite ramparts, sea views and a quiet beach perfect for sunset strolls.</p>
+      <div class="bg-white rounded-xl p-2 sm:p-3 shadow border border-gray-100">
+       <p class="font-semibold text-gray-900 text-[11px] sm:text-sm">Bekal Fort</p>
+       <p class="text-[9px] sm:text-xs">Massive seaside fort in Kasaragod with laterite ramparts, sea views and a quiet beach perfect for sunset strolls.</p>
       </div>
      </div>
     </div>
-    <nav class="absolute bottom-0 left-0 w-full bg-white rounded-b-3xl flex justify-around items-center py-3 text-green-700 text-sm font-semibold tracking-wide">
-     <button aria-label="Home" class="flex flex-col items-center gap-1 touch-target btn-active" onclick="navigateToSection('home')">
-      <i class="fas fa-home text-lg">
+    <nav class="absolute bottom-0 left-0 w-full bg-white rounded-b-3xl flex justify-around items-center py-2 sm:py-3 text-green-700 text-xs sm:text-sm font-semibold tracking-wide">
+     <button aria-label="Home" class="flex flex-col items-center gap-0.5 sm:gap-1 touch-target btn-active" onclick="navigateToSection('home')">
+      <i class="fas fa-home text-base sm:text-lg">
       </i>
-      Home
+      <span class="text-[10px] sm:text-xs">Home</span>
      </button>
-     <button aria-label="Destinations" class="flex flex-col items-center gap-1 text-gray-400 touch-target btn-active" onclick="navigateToSection('destinations')">
-      <i class="fas fa-map-marker-alt text-lg">
+     <button aria-label="Destinations" class="flex flex-col items-center gap-0.5 sm:gap-1 text-gray-400 touch-target btn-active" onclick="navigateToSection('destinations')">
+      <i class="fas fa-map-marker-alt text-base sm:text-lg">
       </i>
-      Destinations
+      <span class="text-[10px] sm:text-xs">Destinations</span>
      </button>
-     <button aria-label="Directions" class="flex flex-col items-center gap-1 text-gray-400 touch-target btn-active" onclick="navigateToSection('directions')">
-      <i class="fas fa-location-arrow text-lg">
+     <button aria-label="Directions" class="flex flex-col items-center gap-0.5 sm:gap-1 text-gray-400 touch-target btn-active" onclick="navigateToSection('directions')">
+      <i class="fas fa-location-arrow text-base sm:text-lg">
       </i>
-      Directions
+      <span class="text-[10px] sm:text-xs">Directions</span>
      </button>
-     <button aria-label="Stays" class="flex flex-col items-center gap-1 text-gray-400 touch-target btn-active" onclick="navigateToSection('stays')">
-      <i class="fas fa-bed text-lg">
+     <button aria-label="Stays" class="flex flex-col items-center gap-0.5 sm:gap-1 text-gray-400 touch-target btn-active" onclick="navigateToSection('stays')">
+      <i class="fas fa-bed text-base sm:text-lg">
       </i>
-      Stays
+      <span class="text-[10px] sm:text-xs">Stays</span>
      </button>
     </nav>
    </section>
    <!-- Middle phone -->
    <section class="relative phone-shell bg-white rounded-3xl shadow-lg flex flex-col overflow-hidden" data-section="destinations">
-    <div class="p-4 flex justify-between items-center">
+    <div class="p-3 sm:p-4 flex justify-between items-center">
      <button aria-label="Menu" class="text-gray-700 text-xl touch-target btn-active p-2 rounded-lg hover:bg-gray-100" onclick="toggleMenu(this)">
       <i class="fas fa-bars">
       </i>
      </button>
-     <img alt="User profile picture with notification red dot" class="w-10 h-10 rounded-full relative cursor-pointer touch-target" height="40" src="https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg" width="40" onclick="showProfile()"/>
-     <span aria-hidden="true" class="absolute top-5 right-5 w-3.5 h-3.5 bg-red-600 rounded-full border-2 border-white cursor-pointer" onclick="showNotifications()">
+     <img alt="User profile picture with notification red dot" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full relative cursor-pointer touch-target" height="40" src="https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg" width="40" onclick="showProfile()"/>
+     <span aria-hidden="true" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-3 h-3 sm:w-3.5 sm:h-3.5 bg-red-600 rounded-full border-2 border-white cursor-pointer" onclick="showNotifications()">
      </span>
     </div>
-    <div class="relative h-[220px]">
+    <div class="relative h-[180px] sm:h-[220px]">
      <img alt="Elephant in Wayanad forest" class="w-full h-full object-cover rounded-tl-3xl rounded-tr-3xl" height="220" src="https://storage.googleapis.com/a1aa/image/eb95a9e6-e9a5-4f50-8bbc-25eef0afb6b3.jpg" width="320"/>
-     <button aria-label="Location arrow" class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-md text-green-700 touch-target btn-active" onclick="getCurrentLocation()">
-      <i class="fas fa-location-arrow">
+     <button aria-label="Location arrow" class="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white rounded-full p-1.5 sm:p-2 shadow-md text-green-700 touch-target btn-active" onclick="getCurrentLocation()">
+      <i class="fas fa-location-arrow text-sm sm:text-base">
       </i>
      </button>
     </div>
-    <div id="destinations-scroll" class="p-6 flex flex-col flex-grow overflow-y-auto" style="scroll-behavior: smooth; padding-bottom: 6rem;">
-     <h2 class="text-lg font-bold mb-2">
+    <div id="destinations-scroll" class="p-4 sm:p-6 flex flex-col flex-grow overflow-y-auto" style="scroll-behavior: smooth; padding-bottom: 6rem;">
+     <h2 class="text-base sm:text-lg font-bold mb-2">
       Wayanad
      </h2>
-     <p class="text-xs text-gray-600 mb-4 leading-tight font-mono">
+     <p class="text-[10px] sm:text-xs text-gray-600 mb-3 sm:mb-4 leading-tight font-mono">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip.
      </p>
-     <div class="flex space-x-2 mb-4">
-      <img alt="Waterfall in Wayanad" class="rounded-lg object-cover w-16 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/4cbcd9d2-7bba-4019-8eab-e8427443f436.jpg" width="60"/>
-      <img alt="Tiger in Wayanad forest" class="rounded-lg object-cover w-16 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/a4d18961-0fc6-4c92-b6aa-736d675ca07d.jpg" width="60"/>
-      <img alt="Elephants in Wayanad forest" class="rounded-lg object-cover w-16 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/650bb2a0-c5bd-417b-298e-6498809183cd.jpg" width="60"/>
-      <img alt="Lake in Wayanad" class="rounded-lg object-cover w-16 h-10" height="40" src="https://storage.googleapis.com/a1aa/image/4121c854-48c8-4fe2-37ff-5026ea97627a.jpg" width="60"/>
+     <div class="flex space-x-1.5 sm:space-x-2 mb-3 sm:mb-4">
+      <img alt="Waterfall in Wayanad" class="rounded-lg object-cover w-12 h-8 sm:w-16 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/4cbcd9d2-7bba-4019-8eab-e8427443f436.jpg" width="60"/>
+      <img alt="Tiger in Wayanad forest" class="rounded-lg object-cover w-12 h-8 sm:w-16 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/a4d18961-0fc6-4c92-b6aa-736d675ca07d.jpg" width="60"/>
+      <img alt="Elephants in Wayanad forest" class="rounded-lg object-cover w-12 h-8 sm:w-16 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/650bb2a0-c5bd-417b-298e-6498809183cd.jpg" width="60"/>
+      <img alt="Lake in Wayanad" class="rounded-lg object-cover w-12 h-8 sm:w-16 sm:h-10" height="40" src="https://storage.googleapis.com/a1aa/image/4121c854-48c8-4fe2-37ff-5026ea97627a.jpg" width="60"/>
      </div>
-     <div class="flex items-center space-x-6 text-gray-600 text-xs mb-4">
+     <div class="flex items-center space-x-4 sm:space-x-6 text-gray-600 text-[10px] sm:text-xs mb-3 sm:mb-4">
       <div class="flex items-center space-x-1 cursor-pointer touch-target btn-active hover:text-blue-500 transition-colors" onclick="toggleLike(this.querySelector('i'))">
        <i class="far fa-thumbs-up">
        </i>
@@ -796,79 +832,79 @@
    </section>
    <!-- Right phone -->
    <section class="relative phone-shell bg-[#f9f9f9] rounded-3xl shadow-lg flex flex-col overflow-hidden" data-section="stays">
-    <div class="p-4 flex justify-between items-center">
+    <div class="p-3 sm:p-4 flex justify-between items-center">
      <button aria-label="Menu" class="text-gray-700 text-xl touch-target btn-active p-2 rounded-lg hover:bg-gray-100" onclick="toggleMenu(this)">
       <i class="fas fa-bars">
       </i>
      </button>
-     <img alt="User profile picture with notification red dot" class="w-10 h-10 rounded-full relative cursor-pointer touch-target" height="40" src="https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg" width="40" onclick="showProfile()"/>
-     <span aria-hidden="true" class="absolute top-5 right-5 w-3.5 h-3.5 bg-red-600 rounded-full border-2 border-white cursor-pointer" onclick="showNotifications()">
+     <img alt="User profile picture with notification red dot" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full relative cursor-pointer touch-target" height="40" src="https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg" width="40" onclick="showProfile()"/>
+     <span aria-hidden="true" class="absolute top-4 right-4 sm:top-5 sm:right-5 w-3 h-3 sm:w-3.5 sm:h-3.5 bg-red-600 rounded-full border-2 border-white cursor-pointer" onclick="showNotifications()">
      </span>
     </div>
-    <div class="px-6 pb-6 flex flex-col flex-grow overflow-y-auto">
-     <div class="mb-4 flex items-center gap-2">
-      <input id="stays-search" class="flex-1 bg-white rounded-full py-2 px-4 text-xs text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700 focus:placeholder-gray-300" placeholder="Search hotels, landmarks..." type="search" oninput="filterStays()"/>
-      <label class="cursor-pointer text-xs bg-white border border-gray-200 rounded-full py-2 px-3 hover:bg-gray-50">
+    <div class="px-4 sm:px-6 pb-4 sm:pb-6 flex flex-col flex-grow overflow-y-auto">
+     <div class="mb-3 sm:mb-4 flex items-center gap-1.5 sm:gap-2">
+      <input id="stays-search" class="flex-1 bg-white rounded-full py-1.5 sm:py-2 px-3 sm:px-4 text-[10px] sm:text-xs text-gray-600 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-700 focus:placeholder-gray-300" placeholder="Search hotels, landmarks..." type="search" oninput="filterStays()"/>
+      <label class="cursor-pointer text-[9px] sm:text-xs bg-white border border-gray-200 rounded-full py-1.5 sm:py-2 px-2 sm:px-3 hover:bg-gray-50">
        <input id="stays-file" type="file" accept=".csv" class="hidden" onchange="loadStaysFromCSV(event)"/>
        Import CSV
       </label>
      </div>
-     <div class="mb-4 grid grid-cols-3 gap-2 text-xs">
-      <select id="stays-sort" class="bg-white border border-gray-200 rounded-lg py-2 px-3" onchange="applyStaySort()">
+     <div class="mb-3 sm:mb-4 grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-2 text-[9px] sm:text-xs">
+      <select id="stays-sort" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3" onchange="applyStaySort()">
        <option value="rating-desc">Sort: Rating (high)</option>
        <option value="price-asc">Sort: Price (low)</option>
        <option value="reviews-desc">Sort: Reviews (high)</option>
       </select>
-      <select id="stays-stars" class="bg-white border border-gray-200 rounded-lg py-2 px-3" onchange="filterStays()">
+      <select id="stays-stars" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3" onchange="filterStays()">
        <option value="">Stars: Any</option>
        <option value="5">5 Star</option>
        <option value="4">4 Star</option>
        <option value="3">3 Star</option>
       </select>
-      <select id="stays-area" class="bg-white border border-gray-200 rounded-lg py-2 px-3" onchange="filterStays()">
+      <select id="stays-area" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3" onchange="filterStays()">
        <option value="">Area: Any</option>
        <option value="city centre">City Centre</option>
        <option value="Attukal Waterfalls">Attukal Waterfalls</option>
       </select>
      </div>
-     <div class="mb-4 grid grid-cols-2 gap-2 text-xs">
-      <select id="stays-type" class="bg-white border border-gray-200 rounded-lg py-2 px-3" onchange="filterStays()">
+     <div class="mb-3 sm:mb-4 grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2 text-[9px] sm:text-xs">
+      <select id="stays-type" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3" onchange="filterStays()">
        <option value="">Type: Any</option>
        <option>Resort</option>
        <option>Villa</option>
        <option>Hotel</option>
       </select>
-      <input id="stays-capacity" type="number" min="0" class="bg-white border border-gray-200 rounded-lg py-2 px-3" placeholder="Min capacity" oninput="filterStays()"/>
+      <input id="stays-capacity" type="number" min="0" class="bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3" placeholder="Min capacity" oninput="filterStays()"/>
      </div>
-     <div class="mb-4 flex items-center gap-3 text-xs">
-      <div class="flex items-center gap-2">
+     <div class="mb-3 sm:mb-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 text-[9px] sm:text-xs">
+      <div class="flex items-center gap-1.5 sm:gap-2">
        <label class="text-gray-600">₹ Min</label>
-       <input id="stays-price-min" type="number" class="w-20 bg-white border border-gray-200 rounded-lg py-2 px-2" placeholder="0" oninput="filterStays()"/>
+       <input id="stays-price-min" type="number" class="w-16 sm:w-20 bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-1.5 sm:px-2" placeholder="0" oninput="filterStays()"/>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5 sm:gap-2">
        <label class="text-gray-600">₹ Max</label>
-       <input id="stays-price-max" type="number" class="w-24 bg-white border border-gray-200 rounded-lg py-2 px-2" placeholder="99999" oninput="filterStays()"/>
+       <input id="stays-price-max" type="number" class="w-20 sm:w-24 bg-white border border-gray-200 rounded-lg py-1.5 sm:py-2 px-1.5 sm:px-2" placeholder="99999" oninput="filterStays()"/>
       </div>
       <details class="ml-auto">
-       <summary class="cursor-pointer text-gray-700">Amenities</summary>
-       <div class="mt-2 grid grid-cols-2 gap-2 bg-white border border-gray-200 rounded-lg p-3 w-[220px]">
-        <label class="flex items-center gap-2 text-xs"><input type="checkbox" value="Free WiFi" onchange="filterStays()" class="amenity">Free WiFi</label>
-        <label class="flex items-center gap-2 text-xs"><input type="checkbox" value="Breakfast" onchange="filterStays()" class="amenity">Breakfast</label>
-        <label class="flex items-center gap-2 text-xs"><input type="checkbox" value="Pool" onchange="filterStays()" class="amenity">Pool</label>
-        <label class="flex items-center gap-2 text-xs"><input type="checkbox" value="Parking" onchange="filterStays()" class="amenity">Parking</label>
-        <label class="flex items-center gap-2 text-xs"><input type="checkbox" value="AC" onchange="filterStays()" class="amenity">AC</label>
-        <label class="flex items-center gap-2 text-xs"><input type="checkbox" value="Restaurant" onchange="filterStays()" class="amenity">Restaurant</label>
+       <summary class="cursor-pointer text-gray-700 text-[9px] sm:text-xs">Amenities</summary>
+       <div class="mt-2 grid grid-cols-2 gap-1.5 sm:gap-2 bg-white border border-gray-200 rounded-lg p-2 sm:p-3 w-[180px] sm:w-[220px]">
+        <label class="flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-xs"><input type="checkbox" value="Free WiFi" onchange="filterStays()" class="amenity">Free WiFi</label>
+        <label class="flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-xs"><input type="checkbox" value="Breakfast" onchange="filterStays()" class="amenity">Breakfast</label>
+        <label class="flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-xs"><input type="checkbox" value="Pool" onchange="filterStays()" class="amenity">Pool</label>
+        <label class="flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-xs"><input type="checkbox" value="Parking" onchange="filterStays()" class="amenity">Parking</label>
+        <label class="flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-xs"><input type="checkbox" value="AC" onchange="filterStays()" class="amenity">AC</label>
+        <label class="flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-xs"><input type="checkbox" value="Restaurant" onchange="filterStays()" class="amenity">Restaurant</label>
        </div>
       </details>
      </div>
-     <div id="stays-chips" class="mb-4 overflow-x-auto whitespace-nowrap pb-1">
-      <button class="chip" onclick="toggleAreaChip(this, 'Munnar')">Munnar</button>
-      <button class="chip" onclick="toggleAreaChip(this, 'Wayanad')">Wayanad</button>
-      <button class="chip" onclick="toggleAreaChip(this, 'Kochi')">Kochi</button>
-      <button class="chip" onclick="toggleAreaChip(this, 'Alappuzha')">Alappuzha</button>
-      <button class="chip" onclick="toggleAreaChip(this, 'Kovalam')">Kovalam</button>
-      <button class="chip" onclick="toggleAreaChip(this, 'Kumarakom')">Kumarakom</button>
-      <button class="chip" onclick="toggleAreaChip(this, 'Varkala')">Varkala</button>
+     <div id="stays-chips" class="mb-3 sm:mb-4 overflow-x-auto whitespace-nowrap pb-1">
+      <button class="chip text-[10px] sm:text-xs px-2 sm:px-3 py-1.5 sm:py-2" onclick="toggleAreaChip(this, 'Munnar')">Munnar</button>
+      <button class="chip text-[10px] sm:text-xs px-2 sm:px-3 py-1.5 sm:py-2" onclick="toggleAreaChip(this, 'Wayanad')">Wayanad</button>
+      <button class="chip text-[10px] sm:text-xs px-2 sm:px-3 py-1.5 sm:py-2" onclick="toggleAreaChip(this, 'Kochi')">Kochi</button>
+      <button class="chip text-[10px] sm:text-xs px-2 sm:px-3 py-1.5 sm:py-2" onclick="toggleAreaChip(this, 'Alappuzha')">Alappuzha</button>
+      <button class="chip text-[10px] sm:text-xs px-2 sm:px-3 py-1.5 sm:py-2" onclick="toggleAreaChip(this, 'Kovalam')">Kovalam</button>
+      <button class="chip text-[10px] sm:text-xs px-2 sm:px-3 py-1.5 sm:py-2" onclick="toggleAreaChip(this, 'Kumarakom')">Kumarakom</button>
+      <button class="chip text-[10px] sm:text-xs px-2 sm:px-3 py-1.5 sm:py-2" onclick="toggleAreaChip(this, 'Varkala')">Varkala</button>
      </div>
      <div class="mb-4">
       <div class="text-xs text-gray-600 mb-1">Locations</div>
@@ -1262,30 +1298,30 @@
   </main>
   <!-- Packages section (overlay style for consistency with grid layout) -->
   <section class="relative phone-shell bg-white rounded-3xl shadow-lg flex flex-col overflow-hidden" data-section="packages">
-   <div class="p-4 flex justify-between items-center">
+   <div class="p-3 sm:p-4 flex justify-between items-center">
     <button aria-label="Menu" class="text-gray-700 text-xl touch-target btn-active p-2 rounded-lg hover:bg-gray-100" onclick="toggleMenu(this)">
      <i class="fas fa-bars"></i>
     </button>
-    <h2 class="text-lg font-bold">Packages</h2>
+    <h2 class="text-base sm:text-lg font-bold">Packages</h2>
     <span></span>
    </div>
-   <div id="packages-scroll" class="px-6 pb-6 flex-1 overflow-y-auto" style="scroll-behavior:smooth; padding-bottom: 5rem;"></div>
-   <nav class="absolute bottom-0 left-0 w-full bg-white rounded-b-3xl flex justify-around items-center py-3 text-green-700 text-sm font-semibold tracking-wide">
-    <button aria-label="Home" class="flex flex-col items-center gap-1 text-gray-400" onclick="navigateToSection('home')">
-     <i class="fas fa-home text-lg"></i>
-     Home
+   <div id="packages-scroll" class="px-4 sm:px-6 pb-4 sm:pb-6 flex-1 overflow-y-auto" style="scroll-behavior:smooth; padding-bottom: 5rem;"></div>
+   <nav class="absolute bottom-0 left-0 w-full bg-white rounded-b-3xl flex justify-around items-center py-2 sm:py-3 text-green-700 text-xs sm:text-sm font-semibold tracking-wide">
+    <button aria-label="Home" class="flex flex-col items-center gap-0.5 sm:gap-1 text-gray-400" onclick="navigateToSection('home')">
+     <i class="fas fa-home text-base sm:text-lg"></i>
+     <span class="text-[10px] sm:text-xs">Home</span>
     </button>
-    <button aria-label="Destinations" class="flex flex-col items-center gap-1 text-gray-400" onclick="navigateToSection('destinations')">
-     <i class="fas fa-map-marker-alt text-lg"></i>
-     Destinations
+    <button aria-label="Destinations" class="flex flex-col items-center gap-0.5 sm:gap-1 text-gray-400" onclick="navigateToSection('destinations')">
+     <i class="fas fa-map-marker-alt text-base sm:text-lg"></i>
+     <span class="text-[10px] sm:text-xs">Destinations</span>
     </button>
-    <button aria-label="Packages" class="flex flex-col items-center gap-1 text-green-700" onclick="navigateToSection('packages')">
-     <i class="fas fa-suitcase-rolling text-lg"></i>
-     Packages
+    <button aria-label="Packages" class="flex flex-col items-center gap-0.5 sm:gap-1 text-green-700" onclick="navigateToSection('packages')">
+     <i class="fas fa-suitcase-rolling text-base sm:text-lg"></i>
+     <span class="text-[10px] sm:text-xs">Packages</span>
     </button>
-    <button aria-label="Stays" class="flex flex-col items-center gap-1 text-gray-400" onclick="navigateToSection('stays')">
-     <i class="fas fa-bed text-lg"></i>
-     Stays
+    <button aria-label="Stays" class="flex flex-col items-center gap-0.5 sm:gap-1 text-gray-400" onclick="navigateToSection('stays')">
+     <i class="fas fa-bed text-base sm:text-lg"></i>
+     <span class="text-[10px] sm:text-xs">Stays</span>
     </button>
    </nav>
   </section>
@@ -2116,33 +2152,33 @@
       const saved = JSON.parse(localStorage.getItem('userProfile') || 'null');
       if (!saved) { openAuthModal(); return; }
       const profile = document.createElement('div');
-      profile.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
+      profile.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2 sm:p-4';
       profile.innerHTML = `
-        <div class="bg-white rounded-2xl p-6 m-4 max-w-sm w-full">
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-bold">Profile</h3>
+        <div class="bg-white rounded-2xl p-4 sm:p-6 m-2 sm:m-4 max-w-sm w-full">
+          <div class="flex justify-between items-center mb-3 sm:mb-4">
+            <h3 class="text-base sm:text-lg font-bold">Profile</h3>
             <button onclick="this.parentElement.parentElement.parentElement.remove(); showToast('Closed')" class="text-gray-500 text-xl">×</button>
           </div>
           <div class="text-center">
-            <img src="${saved.photoURL || 'https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg'}" class="w-20 h-20 rounded-full mx-auto mb-4" alt="Profile">
-            <h4 class="font-bold text-lg">${saved.name || 'Guest'}</h4>
-            ${saved.email ? `<p class=\"text-xs text-gray-500\">${saved.email}</p>` : ''}
-            <div class="mt-4 grid grid-cols-2 gap-2 text-xs">
-              <button class="border border-gray-300 py-2 rounded-lg" onclick="showToast('Opening bookings...')">Bookings</button>
-              <button class="border border-gray-300 py-2 rounded-lg" onclick="showToast('Opening wishlist...')">Wishlist</button>
-              <button class="border border-gray-300 py-2 rounded-lg" onclick="showToast('Opening payments...')">Payments</button>
-              <button class="border border-gray-300 py-2 rounded-lg" onclick="showToast('Opening settings...')">Settings</button>
+            <img src="${saved.photoURL || 'https://storage.googleapis.com/a1aa/image/a74065d2-1ec0-4a5e-b775-f5486818be47.jpg'}" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto mb-3 sm:mb-4" alt="Profile">
+            <h4 class="font-bold text-base sm:text-lg">${saved.name || 'Guest'}</h4>
+            ${saved.email ? `<p class=\"text-[10px] sm:text-xs text-gray-500\">${saved.email}</p>` : ''}
+            <div class="mt-3 sm:mt-4 grid grid-cols-2 gap-1.5 sm:gap-2 text-[10px] sm:text-xs">
+              <button class="border border-gray-300 py-1.5 sm:py-2 rounded-lg" onclick="showToast('Opening bookings...')">Bookings</button>
+              <button class="border border-gray-300 py-1.5 sm:py-2 rounded-lg" onclick="showToast('Opening wishlist...')">Wishlist</button>
+              <button class="border border-gray-300 py-1.5 sm:py-2 rounded-lg" onclick="showToast('Opening payments...')">Payments</button>
+              <button class="border border-gray-300 py-1.5 sm:py-2 rounded-lg" onclick="showToast('Opening settings...')">Settings</button>
             </div>
-            <div class="mt-4 text-left text-sm text-gray-700 space-y-1">
+            <div class="mt-3 sm:mt-4 text-left text-[10px] sm:text-sm text-gray-700 space-y-1">
               ${saved.phone ? `<div><span class=\"text-gray-500\">Phone:</span> ${saved.phone}</div>` : ''}
               ${saved.address ? `<div><span class=\"text-gray-500\">Address:</span> ${saved.address}</div>` : ''}
               ${saved.city ? `<div><span class=\"text-gray-500\">City:</span> ${saved.city}</div>` : ''}
               ${saved.state ? `<div><span class=\"text-gray-500\">State:</span> ${saved.state}</div>` : ''}
               ${saved.country ? `<div><span class=\"text-gray-500\">Country:</span> ${saved.country}</div>` : ''}
             </div>
-            <div class="mt-4 grid grid-cols-2 gap-2">
-              <button class="w-full border border-gray-300 py-2 rounded-lg" onclick="openAuthModal(); showToast('Edit profile')">Edit Details</button>
-              <button class="w-full bg-red-600 text-white py-2 rounded-lg" onclick="signOutUser()">Sign out</button>
+            <div class="mt-3 sm:mt-4 grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
+              <button class="w-full border border-gray-300 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs" onclick="openAuthModal(); showToast('Edit profile')">Edit Details</button>
+              <button class="w-full bg-red-600 text-white py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs" onclick="signOutUser()">Sign out</button>
             </div>
           </div>
         </div>
